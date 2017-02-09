@@ -14,8 +14,9 @@ public interface BaseView<T> {
     void setPresenter(T presenter);
 
     /**
-     * @param view
      * 用于初始化界面元素，调用时机为Fragment的onCreate()方法中。
+     * @param view
+     * null
      */
     void initViews(View view);
 }
