@@ -49,6 +49,8 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
 
     }
 
+    String str;
+
     @Override
     public void stopLoading() {
 
