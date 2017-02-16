@@ -16,7 +16,7 @@ import java.util.List;
 public class ZHihuLocalDataSource implements ZhihuDateSource {
     @Override
     public void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
-
+        
     }
 
     @Override
