@@ -4,6 +4,7 @@
               android:layout_height="120dp"
               android:layout_margin="6dp"
               android:orientation="vertical"
+              android:id="@+id/zhihuListLayout"
     >
 
     <LinearLayout

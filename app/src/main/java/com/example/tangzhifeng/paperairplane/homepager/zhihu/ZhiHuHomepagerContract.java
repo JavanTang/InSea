@@ -1,5 +1,7 @@
 package com.example.tangzhifeng.paperairplane.homepager.zhihu;
 
+import android.content.Context;
+
 import com.example.tangzhifeng.paperairplane.BasePresenter;
 import com.example.tangzhifeng.paperairplane.BaseView;
 import com.example.tangzhifeng.paperairplane.adapter.ZhihuRecycleAdapter;
@@ -25,8 +27,7 @@ public interface ZhiHuHomepagerContract {
         void ClickZhihuItem(String id);
 
 
-
-
+        void ClickZhihuItem(String s, Context context);
     }
     interface View extends BaseView<Presenter>{
         //显示下拉刷新
