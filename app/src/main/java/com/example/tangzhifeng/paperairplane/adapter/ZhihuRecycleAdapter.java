@@ -55,9 +55,7 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
 
     @Override
     public void onBindViewHolder(ZhihuRecycleHolder holder, int position) {
-
         // TODO: 2017/2/16 这里还可以优化
-
         int current=0;
         for (ZhiHuList zhiHuList : mZhiHuLists) {
             for (ZhiHuList.StoriesBean bean : zhiHuList.getStories()) {
