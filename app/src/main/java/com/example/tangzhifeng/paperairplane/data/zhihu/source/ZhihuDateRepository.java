@@ -1,6 +1,5 @@
 package com.example.tangzhifeng.paperairplane.data.zhihu.source;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
@@ -36,6 +35,11 @@ public class ZhihuDateRepository implements ZhihuDateSource {
     }
 
     @Override
+    public void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
+        remoteData.isZhihuListUpdate(zhiHuList,checkZhihuListUpdateCallBack);
+    }
+
+    @Override
     public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
         remoteData.getZhiHuList(loadZhiHuListCallback);
     }
@@ -45,25 +49,14 @@ public class ZhihuDateRepository implements ZhihuDateSource {
         remoteData.getZHihuList(date,loadZhiHuListCallback);
     }
 
-    @Override
-    public void getZHihuList(String date, LoadZhiHuListCallback loadZhiHuListCallback, Context context) {
-        remoteData.getZHihuList(date,loadZhiHuListCallback,context);
-    }
+
 
     @Override
     public void saveZhiHuList(List<ZhiHuList> zhiHuLists) {
 
     }
 
-    @Override
-    public void refreshZhiHuList() {
 
-    }
-
-    @Override
-    public void getZhihu(GetZhiHuCallback getZhiHuCallback) {
-
-    }
 
     @Override
     public void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {

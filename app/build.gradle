@@ -43,4 +43,10 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.12.0'
     compile 'com.facebook.fresco:webpsupport:0.12.0'
 
+
+    //下拉刷新
+    compile 'com.android.support:recyclerview-v7:1.1.7'
+    compile 'com.android.support:appcompat-v7:1.1.7'
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.7@aar'
+
 }

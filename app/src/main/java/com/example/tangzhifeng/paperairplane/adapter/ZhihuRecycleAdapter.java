@@ -22,22 +22,31 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
 
     Context mContext;
 
+    public void setZhiHuLists(List<ZhiHuList> zhiHuLists) {
+        mZhiHuLists = zhiHuLists;
+    }
+
     List<ZhiHuList> mZhiHuLists;
     LayoutInflater mInflater;
 
+
+
+
+
+
     public ZhihuRecycleAdapter(List<ZhiHuList> zhiHuLists, Context context) {
         mZhiHuLists = zhiHuLists;
-        mContext=context;
-        mInflater=LayoutInflater.from(context);
+        mContext = context;
+        mInflater = LayoutInflater.from(context);
     }
+
+
+
 
     public List<ZhiHuList> getZhiHuLists() {
         return mZhiHuLists;
     }
 
-    public void setZhiHuLists(List<ZhiHuList> zhiHuLists) {
-        mZhiHuLists = zhiHuLists;
-    }
 
     @Override
     public ZhihuRecycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,15 +56,34 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
     @Override
     public void onBindViewHolder(ZhihuRecycleHolder holder, int position) {
 
+        // TODO: 2017/2/16 这里还可以优化
 
-        ZhiHuList.StoriesBean storiesBean=mZhiHuLists.get(0).getStories().get(position);
-        Uri uri=Uri.parse(storiesBean.getImages().get(0));
-        holder.mImageView.setImageURI(uri);
-        holder.mTextView.setText(storiesBean.getTitle());
+        int current=0;
+        for (ZhiHuList zhiHuList : mZhiHuLists) {
+            for (ZhiHuList.StoriesBean bean : zhiHuList.getStories()) {
+                if(current==position)
+                {
+                    Uri uri=Uri.parse(bean.getImages().get(0));
+                    holder.mImageView.setImageURI(uri);
+                    holder.mTextView.setText(bean.getTitle());
+                }
+                current++;
+
+            }
+        }
+        
+
     }
 
     @Override
     public int getItemCount() {
-        return mZhiHuLists.get(0).getStories().size();
+        int sum=0;
+        for (ZhiHuList zhiHuList : mZhiHuLists) {
+            sum+=zhiHuList.getStories().size();
+        }
+        return sum;
+
     }
+
+
 }

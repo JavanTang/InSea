@@ -6,6 +6,10 @@ package com.example.tangzhifeng.paperairplane.util;
  */
 
 public class Api {
+
+    //The latest news
+    public static final String LATEST_NEWS="http://news-at.zhihu.com/api/4/news/latest";
+
     //后面加日期,例如:http://news-at.zhihu.com/api/4/news/before/20131119
     public static final String PREVIOUS_MESSAGE="http://news-at.zhihu.com/api/4/news/before/";
 

@@ -1,6 +1,5 @@
 package com.example.tangzhifeng.paperairplane.data.zhihu.source.local;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
@@ -16,6 +15,11 @@ import java.util.List;
 
 public class ZHihuLocalDataSource implements ZhihuDateSource {
     @Override
+    public void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
+
+    }
+
+    @Override
     public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
 
     }
@@ -25,25 +29,15 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
 
     }
 
-    @Override
-    public void getZHihuList(String date, LoadZhiHuListCallback loadZhiHuListCallback, Context context) {
 
-    }
 
     @Override
     public void saveZhiHuList(List<ZhiHuList> zhiHuLists) {
 
     }
 
-    @Override
-    public void refreshZhiHuList() {
 
-    }
 
-    @Override
-    public void getZhihu(GetZhiHuCallback getZhiHuCallback) {
-
-    }
 
     @Override
     public void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {

@@ -1,18 +1,17 @@
 package com.example.tangzhifeng.paperairplane.data.zhihu.source.remote;
 
-import android.content.Context;
-import android.os.Message;
 import android.support.annotation.NonNull;
 
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
+import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuListNews;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 import com.example.tangzhifeng.paperairplane.util.Api;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
-import com.example.tangzhifeng.paperairplane.util.NetUtils;
 import com.example.tangzhifeng.paperairplane.util.ZhihuListHttpUtil;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,28 +33,47 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
 
 
     @Override
+    public void isZhihuListUpdate(final ZhiHuList zhiHuList, final CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
+        HttpUtil.sendHttpRequest(Api.LATEST_NEWS, new HttpUtil.IHttpCallbackListenet() {
+            @Override
+            public void onFinish(String response) {
+                boolean checkUpadate=false;
+                ZhiHuListNews zhiHuListNews=new ZhiHuListNews();
+                Gson gson=new Gson();
+                zhiHuListNews=gson.fromJson(response,ZhiHuListNews.class);
+
+                List<ZhiHuList.StoriesBean> storiesBeanList=new ArrayList<ZhiHuList.StoriesBean>();
+
+                for (ZhiHuList.StoriesBean storiesBean : zhiHuListNews.getStories()) {
+                    if(!zhiHuList.getStories().contains(storiesBean)){
+                        checkUpadate=true;
+                        zhiHuList.setStories(zhiHuListNews.getStories());
+                        checkZhihuListUpdateCallBack.onZHihuListUpdate(zhiHuList);
+                        return ;
+                    }
+                }
+
+                    checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
     public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
         getZHihuList(ZhihuListHttpUtil.getCurrentDate(), loadZhiHuListCallback);
     }
 
-    android.os.Handler mHandler=new android.os.Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
 
-        }
-    };
 
-    static String s=new String();
+
     @Override
     public void getZHihuList(String date, final LoadZhiHuListCallback loadZhiHuListCallback) {
-
-
-
-
-
-
-
 
         HttpUtil.sendHttpRequest(Api.PREVIOUS_MESSAGE + date, new HttpUtil.IHttpCallbackListenet() {
             @Override
@@ -70,7 +88,6 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
                 } else {
                     loadZhiHuListCallback.onZhiHuListNotAvailable();
                 }
-
             }
 
             @Override
@@ -79,41 +96,15 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
             }
         });
 
-
-
-
     }
 
-    @Override
-    public void getZHihuList(String date, LoadZhiHuListCallback loadZhiHuListCallback, Context context) {
-        ZhiHuList zhiHuList = new ZhiHuList();
-        String json = new String();
-        Gson gson = new Gson();
-
-        json= NetUtils.get(Api.PREVIOUS_MESSAGE+date,context);
-        zhiHuList = gson.fromJson(json, ZhiHuList.class);
-        if (zhiHuList != null) {
-
-            loadZhiHuListCallback.onZhiHuListLoaded(Arrays.asList(zhiHuList));
-        } else {
-            loadZhiHuListCallback.onZhiHuListNotAvailable();
-        }
-    }
 
     @Override
     public void saveZhiHuList(List<ZhiHuList> zhiHuLists) {
 
     }
 
-    @Override
-    public void refreshZhiHuList() {
 
-    }
-
-    @Override
-    public void getZhihu(GetZhiHuCallback getZhiHuCallback) {
-
-    }
 
     @Override
     public void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {

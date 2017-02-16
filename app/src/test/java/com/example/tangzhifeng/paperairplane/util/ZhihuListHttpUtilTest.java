@@ -12,9 +12,11 @@ public class ZhihuListHttpUtilTest {
     public void setUp() throws Exception {
     }
 
+
     @Test
     public void getCurrentDate() throws Exception {
         System.out.println(ZhihuListHttpUtil.getCurrentDate());
+        System.out.println(ZhihuListHttpUtil.getSpecifiedDayBefore("20170201"));
     }
 
 }
