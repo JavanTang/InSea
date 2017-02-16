@@ -107,8 +107,21 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
 
 
     @Override
-    public void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {
+    public void getZhihu(String id, final GetZhiHuCallback getZhiHuCallback) {
+        HttpUtil.sendHttpRequest(Api.DETAILED_CONTENT + id, new HttpUtil.IHttpCallbackListenet() {
+            @Override
+            public void onFinish(String response) {
+                ZhiHu zhiHu=new ZhiHu();
+                Gson gson=new Gson();
+                zhiHu=gson.fromJson(response,ZhiHu.class);
+                getZhiHuCallback.onZhiHuLoaded(zhiHu);
+            }
 
+            @Override
+            public void onError(Exception e) {
+                getZhiHuCallback.onZhiHuNotAvailable();
+            }
+        });
     }
 
     @Override

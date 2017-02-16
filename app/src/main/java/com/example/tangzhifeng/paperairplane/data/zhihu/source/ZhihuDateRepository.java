@@ -60,7 +60,7 @@ public class ZhihuDateRepository implements ZhihuDateSource {
 
     @Override
     public void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {
-
+        remoteData.getZhihu(id,getZhiHuCallback);
     }
 
     @Override

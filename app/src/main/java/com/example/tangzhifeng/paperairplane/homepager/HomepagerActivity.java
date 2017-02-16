@@ -31,24 +31,24 @@ import butterknife.InjectView;
 public class HomepagerActivity extends AppCompatActivity {
 
 
+    ViewPagerAdapter viewPagerAdapter;
+
+    ZhihuHomeFagment mZhihuHomeFagment;
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.tabs)
     TabLayout mTabs;
     @InjectView(R.id.viewpager)
     ViewPager mViewpager;
-    ViewPagerAdapter viewPagerAdapter;
-
-    ZhihuHomeFagment mZhihuHomeFagment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepageractivity);
         ButterKnife.inject(this);
-        mZhihuHomeFagment=new ZhihuHomeFagment();
-        new ZhiHuHomePresenter(mZhihuHomeFagment,new ZhihuDateRepository(ZhihuRemoteDataSource.
-                getInstance(),ZhihuRemoteDataSource.getInstance()));
+        mZhihuHomeFagment = new ZhihuHomeFagment();
+        new ZhiHuHomePresenter(mZhihuHomeFagment, new ZhihuDateRepository(ZhihuRemoteDataSource.
+                getInstance(), ZhihuRemoteDataSource.getInstance()));
 
 
         setSupportActionBar(mToolbar);
@@ -60,7 +60,6 @@ public class HomepagerActivity extends AppCompatActivity {
 
         mViewpager.setCurrentItem(0);
         mTabs.setId(0);
-
 
 
         mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -92,7 +91,7 @@ public class HomepagerActivity extends AppCompatActivity {
 
     public void setupViewPager(ViewPager upViewPager) {
 
-         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragmentAndTitle(mZhihuHomeFagment, "知乎日报");
         viewPagerAdapter.addFragmentAndTitle(new ZhihuHomeFagment(), "豆瓣时刻");

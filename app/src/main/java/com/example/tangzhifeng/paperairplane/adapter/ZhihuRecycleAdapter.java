@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tangzhifeng.paperairplane.R;
@@ -30,7 +31,15 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
     LayoutInflater mInflater;
 
 
+    private OnItemClickListener clickListener;
 
+    public void setClickListener(OnItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public static interface OnItemClickListener {
+        void onClick(View view, int position);
+    }
 
 
 
@@ -54,16 +63,24 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
     }
 
     @Override
-    public void onBindViewHolder(ZhihuRecycleHolder holder, int position) {
+    public void onBindViewHolder(ZhihuRecycleHolder holder, final int position) {
         // TODO: 2017/2/16 这里还可以优化
         int current=0;
         for (ZhiHuList zhiHuList : mZhiHuLists) {
-            for (ZhiHuList.StoriesBean bean : zhiHuList.getStories()) {
+            for (final ZhiHuList.StoriesBean bean : zhiHuList.getStories()) {
                 if(current==position)
                 {
                     Uri uri=Uri.parse(bean.getImages().get(0));
                     holder.mImageView.setImageURI(uri);
                     holder.mTextView.setText(bean.getTitle());
+
+                    holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            clickListener.onClick(v,bean.getId());
+                        }
+                    });
+
                 }
                 current++;
 
