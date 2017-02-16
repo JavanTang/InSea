@@ -53,15 +53,6 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
         new ZhiHuHomePresenter(this, new ZhihuDateRepository(ZhihuRemoteDataSource.
                 getInstance(), ZhihuRemoteDataSource.getInstance()));
         initViews(view);
-        mZhihuRecycleAdapter.setClickListener(new ZhihuRecycleAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(View view, int id) {
-
-                mPresenter.ClickZhihuItem(id+"",getContext());
-
-
-            }
-        });
         return view;
 
     }
@@ -104,10 +95,7 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(mRefreshLayout!=null){
-                    mRefreshLayout.endRefreshing();
-
-                }
+                mRefreshLayout.endRefreshing();
                 refreshUI();
             }
         });
@@ -151,7 +139,6 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
         mZhihuList.setAdapter(mZhihuRecycleAdapter);
         mZhihuList.setLayoutManager(new LinearLayoutManager(getContext()));
         mPresenter.start();
-        onBGARefreshLayoutBeginRefreshing(mRefreshLayout);
     }
 
     private void initRefreshLayout() {

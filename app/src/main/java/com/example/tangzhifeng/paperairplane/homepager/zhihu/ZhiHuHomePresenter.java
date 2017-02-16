@@ -1,15 +1,11 @@
 package com.example.tangzhifeng.paperairplane.homepager.zhihu;
 
-import android.content.Context;
-import android.content.Intent;
-
 import com.example.tangzhifeng.paperairplane.adapter.ZhihuRecycleAdapter;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
-import com.example.tangzhifeng.paperairplane.detailedpager.DetailedPagerActivity;
 import com.example.tangzhifeng.paperairplane.util.ZhihuListHttpUtil;
 
 import java.util.List;
@@ -92,15 +88,5 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
     @Override
     public void ClickZhihuItem(String id) {
 
-    }
-
-
-    @Override
-    public void ClickZhihuItem(String s, Context context) {
-        Intent intent=new Intent(context,DetailedPagerActivity.class);
-        intent.putExtra("mode", DetailedPagerActivity.MODE_ZHIHU);
-        intent.putExtra("id",Integer.valueOf(s));
-
-        context.startActivity(intent);
     }
 }

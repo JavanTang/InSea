@@ -3,7 +3,6 @@ package com.example.tangzhifeng.paperairplane.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tangzhifeng.paperairplane.R;
@@ -18,12 +17,12 @@ public class ZhihuRecycleHolder extends RecyclerView.ViewHolder{
 
     SimpleDraweeView mImageView;
     TextView mTextView;
-    LinearLayout mLinearLayout;
+
 
     public ZhihuRecycleHolder(View itemView) {
         super(itemView);
         mImageView= (SimpleDraweeView) itemView.findViewById(R.id.zhihulistImg);
         mTextView= (TextView) itemView.findViewById(R.id.zhihulistTv);
-        mLinearLayout= (LinearLayout) itemView.findViewById(R.id.zhihuListLayout);
+
     }
 }
