@@ -18,12 +18,6 @@ public class AsynNetUtils {
             @Override
             public void run() {
                 final String response = NetUtils.get(url);
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        callback.onResponse(response);
-//                    }
-//                });
                 callback.onResponse(response);
 
             }

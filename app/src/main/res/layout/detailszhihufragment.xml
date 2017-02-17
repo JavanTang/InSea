@@ -29,10 +29,10 @@
 
                 app:background="@color/colorPrimary"/>
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/image_view"
+                android:id="@+id/detailedTitleImg"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:scrollbarStyle="insideInset"
@@ -45,6 +45,9 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:scrollbarFadeDuration="1"
+        android:fadeScrollbars="true"
+        android:scrollbars="vertical"
         android:layout_height="match_parent">
         <WebView
             android:layout_width="match_parent"

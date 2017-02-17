@@ -58,7 +58,7 @@ public class DetailedPagerActivity extends AppCompatActivity {
             case MODE_ZHIHU:
                 ZhihuDetailedFragment zhihuDetailedFragment=new ZhihuDetailedFragment(currentId);
                 new ZhihuDetailedPresenter(zhihuDetailedFragment,new ZhihuDateRepository(
-                        new ZhihuRemoteDataSource(),new ZHihuLocalDataSource()));
+                        new ZhihuRemoteDataSource(),new ZHihuLocalDataSource()),getApplicationContext());
                 viewPagerAdapter.addFragmentAndTitle(zhihuDetailedFragment);
                 viewPagerAdapter.notifyDataSetChanged();
                 break;

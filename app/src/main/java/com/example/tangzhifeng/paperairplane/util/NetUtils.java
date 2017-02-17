@@ -48,7 +48,7 @@ public class NetUtils {
                 String response = getStringFromInputStream(is);
                 return response;
             } else {
-                throw new NetworkErrorException("response status is "+responseCode);
+                throw new NetworkErrorException("response status is " + responseCode);
             }
 
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class NetUtils {
         return null;
     }
 
-    public static String get(String url, Context context){
+    public static String get(String url, Context context) {
 
         final String[] str = new String[1];
         RequestQueue mQueue = Volley.newRequestQueue(context);
@@ -70,7 +70,7 @@ public class NetUtils {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        str[0] =response;
+                        str[0] = response;
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -88,7 +88,7 @@ public class NetUtils {
             // 利用string url构建URL对象
             URL mURL = new URL(url);
             conn = (HttpURLConnection) mURL.openConnection();
-            Log.i(TAG, "get: "+url);
+            Log.i(TAG, "get: " + url);
             conn.setRequestMethod("GET");
             conn.setReadTimeout(5000);
             conn.setConnectTimeout(10000);
@@ -100,7 +100,7 @@ public class NetUtils {
                 String response = getStringFromInputStream(is);
                 return response;
             } else {
-                throw new NetworkErrorException("response status is "+responseCode);
+                throw new NetworkErrorException("response status is " + responseCode);
             }
 
         } catch (Exception e) {

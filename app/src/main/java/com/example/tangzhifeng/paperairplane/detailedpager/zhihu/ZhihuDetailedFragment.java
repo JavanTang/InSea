@@ -1,6 +1,7 @@
 package com.example.tangzhifeng.paperairplane.detailedpager.zhihu;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -30,7 +31,7 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     ZhihuDetailedContract.Presenter mPresenter;
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
-    @InjectView(R.id.image_view)
+    @InjectView(R.id.detailedTitleImg)
     ImageView mImageView;
     @InjectView(R.id.toolbar_layout)
     CollapsingToolbarLayout mToolbarLayout;
@@ -56,7 +57,9 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detailszhihufragment, container, false);
         ButterKnife.inject(this, view);
-        mPresenter.loadZhihu(current+"");
+        initViews(view);
+
+        mPresenter.loadZhihu(current + "");
         return view;
     }
 
@@ -72,7 +75,6 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     }
 
 
-
     @Override
     public void showTitlePicture(String uri) {
 
@@ -83,11 +85,16 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mWebView.getSettings().setJavaScriptEnabled(true);
-                String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/css/news.css\" type=\"text/css\">";
-                String html = "<html><head>" + css + "</head><body>" + zhiHu.getBody() + "</body></html>";
-                html = html.replace("<div class=\"img-place-holder\">", "");
-                mWebView.loadDataWithBaseURL("x-data://base", html, "text/html", "UTF-8", null);
+//                WebSettings webSettings=mWebView.getSettings();
+//                webSettings.setUseWideViewPort(true);
+//                webSettings.setLoadWithOverviewMode(true);
+//                String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/css/news.css\" type=\"text/css\">";
+//                String html = "<html><head>" + css + "</head><body>" + zhiHu.getBody() + "</body></html>";
+//                html = html.replace("<div class=\"img-place-holder\">", "");
+//                mWebView.loadDataWithBaseURL("x-data://base", html, "text/html", "UTF-8", null);
+                mWebView.loadDataWithBaseURL("x-data://base",zhiHu.getBody(),"text/html","utf-8",null);
+                mImageView.setImageURI(Uri.parse(zhiHu.getImage()));
+                mToolbar.setTitle(zhiHu.getTitle());
             }
         });
 
@@ -108,4 +115,6 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+
 }
