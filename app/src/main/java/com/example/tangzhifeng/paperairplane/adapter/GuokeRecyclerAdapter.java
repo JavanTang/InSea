@@ -99,15 +99,12 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
 //        viewHolder.imageLineIcon.setImageResource(R.mipmap.ic_launcher);
         String ItemIconUrl = GuoKelist.get(position).getResult().get(0).getHeadline_img();
         String HeadIconUrl = GuoKelist.get(position).getResult().get(0).getImage();
-//        viewHolder.imageIcon.setTag(url);
-//        imageLoader.ImageByAnysncTask(url,viewHolder.imageIcon);
-//        new ImageLoader().ImageByAnysncTask(url,viewHolder.imageIcon);
-//        imageLoader.ImageByThread(url,viewHolder.imageIcon);
+
         viewHolder.imageLineIcon.setImageURI(ItemIconUrl);
         viewHolder.imageLineIcon.setImageURI(HeadIconUrl);
         viewHolder.tvGroupName.setText(GuoKelist.get(position).getResult().get(0).getGroup_name());
         viewHolder.tvContent.setText(GuoKelist.get(position).getResult().get(0).getSummary());
-        viewHolder.tvAuther.setText(GuoKelist.get(position).getResult().get(0).getAuthor());
+        viewHolder.tvAuther.setText("By："+GuoKelist.get(position).getResult().get(0).getAuthor());
     }
 
     @Override

@@ -70,7 +70,7 @@ public class GuokeFragment extends Fragment {
         mGuokeRecyclerAdapter.setOnItemClickListener(new GuokeRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), ""+GuokeList.get(position).getResult().get(position).getSummary(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), ""+GuokeList.get(position).getResult().get(0).getSummary(), Toast.LENGTH_SHORT).show();
             }
         });
         mGuokeRecyclerAdapter.setOnItemLongClickListener(new GuokeRecyclerAdapter.OnItemLongClickListener() {
