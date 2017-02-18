@@ -52,9 +52,16 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
                 ZhiHuListNews zhiHuListNews = new ZhiHuListNews();
                 Gson gson = new Gson();
                 zhiHuListNews = gson.fromJson(response, ZhiHuListNews.class);
+                zhiHuList.setDate(ZhihuUtil.getCurrentDate());
+                //如果zhiHuList为空,则直接导入数据
+                if (zhiHuList.getStories() == null) {
+                    zhiHuList.setStories(zhiHuListNews.getStories());
+                    checkZhihuListUpdateCallBack.onZHihuListUpdate(zhiHuList);
+                    return;
+                }
 
+                //如果ZhiHuListNews比zhiHuList有改动,则直接替换
                 List<ZhiHuList.StoriesBean> storiesBeanList = new ArrayList<ZhiHuList.StoriesBean>();
-
                 for (ZhiHuList.StoriesBean storiesBean : zhiHuListNews.getStories()) {
                     if (!zhiHuList.getStories().contains(storiesBean)) {
                         checkUpadate = true;
@@ -64,7 +71,6 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
                     }
                 }
                 checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
-
             }
 
             @Override
@@ -143,5 +149,10 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
     @Override
     public void deleteZhiHu(String id) {
 
+    }
+
+    @Override
+    public boolean isCheckId(String id) {
+        return false;
     }
 }

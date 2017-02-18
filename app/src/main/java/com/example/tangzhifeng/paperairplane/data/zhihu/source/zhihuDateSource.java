@@ -95,5 +95,6 @@ public interface ZhihuDateSource {
 
     void deleteZhiHu(String id);
 
-
+    //检查是否存在  true为存在  false为不存在
+    boolean isCheckId(String id);
 }

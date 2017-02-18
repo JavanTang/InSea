@@ -16,6 +16,7 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
+import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +48,8 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.zhihulistfragment, container, false);
         ButterKnife.inject(this, view);
-        mRresenter= new ZhiHuHomePresenter(this, new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getContext()),ZHihuLocalDataSource.
-                getInstance(getContext()) ));
+        mRresenter = new ZhiHuHomePresenter(this, new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getContext()), ZHihuLocalDataSource.
+                getInstance(getContext())));
         initViews(view);
         mZhihuRecycleAdapter.setClickListener(new ZhihuRecycleAdapter.OnItemClickListener() {
             @Override
@@ -63,7 +64,7 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
 
     @Override
     public void showDropDownRefresh() {
-
+        onBGARefreshLayoutBeginRefreshing(mRefreshLayout);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
             @Override
             public void run() {
                 mZhiHuLists = zhiHuListArrayList;
+                mZhihuRecycleAdapter.setZhiHuLists(mZhiHuLists);
                 mZhihuRecycleAdapter.notifyDataSetChanged();
             }
         });
@@ -94,10 +96,7 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mRefreshLayout != null) {
-                    mRefreshLayout.endRefreshing();
-
-                }
+                mRefreshLayout.endRefreshing();
                 refreshUI();
             }
         });
@@ -182,8 +181,13 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-        mPresenter.pullToRefresh(mZhiHuLists, mZhihuRecycleAdapter);
-        return true;
+        if (HttpUtil.isNetworkAvailable(getContext())) {
+            mPresenter.pullToRefresh(mZhiHuLists, mZhihuRecycleAdapter);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

@@ -11,6 +11,8 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +45,33 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
 
     @Override
     public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
+        SQLiteDatabase db=mInSeaDbHelper.getReadableDatabase();
+        Cursor c=db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME,null,null,null,null,null,null);
+        ZhiHuList zhiHuList=new ZhiHuList();
+        List<ZhiHuList.StoriesBean> storiesBeanList=new ArrayList<>();
+        if(c!=null&&c.getCount()>0){
+            while (c.moveToNext()){
+                String ZHihu_id = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID));
+                String Zhihu_title = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE));
+                String Zhihu_img = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG));
+                String Zhihu_body = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY));
+                String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
 
+                ZhiHuList.StoriesBean storiesBean=new ZhiHuList.StoriesBean();
+                storiesBean.setTitle(Zhihu_title);
+                storiesBean.setId(Integer.valueOf(ZHihu_id));
+                List<String> imgs=new ArrayList<>();
+                imgs.add(Zhihu_img);
+                storiesBean.setImages(imgs);
+                storiesBeanList.add(storiesBean);
+            }
+        }
+        zhiHuList.setStories(storiesBeanList);
+        if(storiesBeanList.size()>0){
+            loadZhiHuListCallback.onZhiHuListLoaded(Arrays.asList(zhiHuList));
+        }else{
+            loadZhiHuListCallback.onZhiHuListNotAvailable();
+        }
     }
 
     @Override
@@ -94,7 +122,6 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
 
     @Override
     public void saveZhihu(ZhiHu zhiHu) {
-        Log.i(TAG, "id=" + zhiHu.getId() + ",开始保存!", new Exception());
         SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID, zhiHu.getId());
@@ -119,5 +146,25 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
     @Override
     public void deleteZhiHu(String id) {
 
+    }
+
+    public boolean isCheckId(String id){
+        boolean make=true;
+        SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
+
+        Cursor c = db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME, null
+                , ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID + "=?", new String[]{id}, null, null, null
+        );
+
+        if (c.getCount()==0) {
+            make=false;
+        }else{
+            make=true;
+        }
+        if (c != null) {
+            c.close();
+        }
+        db.close();
+        return make;
     }
 }

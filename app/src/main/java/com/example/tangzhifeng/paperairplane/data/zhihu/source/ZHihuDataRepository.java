@@ -19,8 +19,8 @@ public class ZHihuDataRepository implements ZhihuDateSource {
 
 
     private static ZHihuDataRepository sZhihuDateRepository;
-    ZhihuDateSource localData;
-    ZhihuDateSource remoteData;
+    public ZhihuDateSource localData;
+    public ZhihuDateSource remoteData;
 
     public ZHihuDataRepository(ZhihuDateSource remoteData, ZhihuDateSource localData) {
         this.remoteData = remoteData;
@@ -41,6 +41,7 @@ public class ZHihuDataRepository implements ZhihuDateSource {
 
     @Override
     public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
+
         remoteData.getZhiHuList(loadZhiHuListCallback);
     }
 
@@ -89,7 +90,10 @@ public class ZHihuDataRepository implements ZhihuDateSource {
 
     @Override
     public void saveZhihu(ZhiHu zhiHu) {
-        localData.saveZhihu(zhiHu);
+        if (!localData.isCheckId(zhiHu.getId()+"")) {
+            localData.saveZhihu(zhiHu);
+        }
+
     }
 
     @Override
@@ -100,5 +104,10 @@ public class ZHihuDataRepository implements ZhihuDateSource {
     @Override
     public void deleteZhiHu(String id) {
 
+    }
+
+    @Override
+    public boolean isCheckId(String id) {
+        return false;
     }
 }
