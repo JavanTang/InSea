@@ -104,7 +104,7 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     public void setPresenter(ZhihuDetailedContract.Presenter presenter) {
         mPresenter = presenter;
     }
-
+//tzf
     @Override
     public void initViews(View view) {
 

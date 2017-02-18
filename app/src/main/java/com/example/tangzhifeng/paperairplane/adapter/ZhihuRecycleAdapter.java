@@ -20,16 +20,13 @@ import java.util.List;
 
 public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder> {
 
-
+    List<ZhiHuList> mZhiHuLists;
+    LayoutInflater mInflater;
     Context mContext;
 
     public void setZhiHuLists(List<ZhiHuList> zhiHuLists) {
         mZhiHuLists = zhiHuLists;
     }
-
-    List<ZhiHuList> mZhiHuLists;
-    LayoutInflater mInflater;
-
 
     private OnItemClickListener clickListener;
 
@@ -42,14 +39,11 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
     }
 
 
-
     public ZhihuRecycleAdapter(List<ZhiHuList> zhiHuLists, Context context) {
         mZhiHuLists = zhiHuLists;
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }
-
-
 
 
     public List<ZhiHuList> getZhiHuLists() {
@@ -59,43 +53,47 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
 
     @Override
     public ZhihuRecycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ZhihuRecycleHolder(mInflater.inflate(R.layout.zhihulistitem,parent,false));
+        return new ZhihuRecycleHolder(mInflater.inflate(R.layout.zhihulistitem, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ZhihuRecycleHolder holder, final int position) {
         // TODO: 2017/2/16 这里还可以优化
-        int current=0;
+        int current = 0;
+        //这里显示current序列为position
         for (ZhiHuList zhiHuList : mZhiHuLists) {
             for (final ZhiHuList.StoriesBean bean : zhiHuList.getStories()) {
-                if(current==position)
-                {
-                    Uri uri=Uri.parse(bean.getImages().get(0));
+                if (current == position) {
+                    Uri uri = Uri.parse(bean.getImages().get(0));
                     holder.mImageView.setImageURI(uri);
                     holder.mTextView.setText(bean.getTitle());
 
                     holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            clickListener.onClick(v,bean.getId());
+                            clickListener.onClick(v, bean.getId());
                         }
                     });
 
                 }
                 current++;
-
             }
         }
-        
-
     }
 
     @Override
     public int getItemCount() {
-        int sum=0;
-        for (ZhiHuList zhiHuList : mZhiHuLists) {
-            sum+=zhiHuList.getStories().size();
+        int sum = 0;
+        try {
+            if (mZhiHuLists.size() > 0)
+                for (ZhiHuList zhiHuList : mZhiHuLists) {
+                    if (zhiHuList != null || zhiHuList.getStories() != null)
+                        sum += zhiHuList.getStories().size();
+                }
+        } catch (NullPointerException e) {
+            // TODO: 2017/2/18 BUG
         }
+
         return sum;
 
     }
