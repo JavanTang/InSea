@@ -1,8 +1,5 @@
 package com.example.tangzhifeng.paperairplane.data.zhihu.source;
 
-import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
-import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,18 +18,7 @@ public class ZhihuDateRepositoryTest {
 
     @Test
     public void getZhihu() throws Exception {
-        ZhihuRemoteDataSource zhihuRemoteDataSource=new ZhihuRemoteDataSource();
-        zhihuRemoteDataSource.getZhihu("3892357", new ZhihuDateSource.GetZhiHuCallback() {
-            @Override
-            public void onZhiHuLoaded(ZhiHu zhiHu) {
-                System.out.printf(""+zhiHu.toString());
-            }
-
-            @Override
-            public void onZhiHuNotAvailable() {
-
-            }
-        });
+        
     }
 
 }

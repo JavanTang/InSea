@@ -1,14 +1,17 @@
 package com.example.tangzhifeng.paperairplane.data.zhihu.source.remote;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuListNews;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.util.Api;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
-import com.example.tangzhifeng.paperairplane.util.ZhihuListHttpUtil;
+import com.example.tangzhifeng.paperairplane.util.ZhihuUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -23,11 +26,19 @@ import java.util.List;
 public class ZhihuRemoteDataSource implements ZhihuDateSource {
 
     private static ZhihuRemoteDataSource sZhihuRemoteDataSource;
+    private static ZHihuLocalDataSource sZHihuLocalDataSource;
+    private static ZHihuDataRepository sDataRepository;
 
-    public static ZhihuRemoteDataSource getInstance() {
+    private ZhihuRemoteDataSource() {
+
+    }
+
+    public static ZhihuRemoteDataSource getInstance(Context context) {
         if (sZhihuRemoteDataSource == null) {
             sZhihuRemoteDataSource = new ZhihuRemoteDataSource();
         }
+        sZHihuLocalDataSource = ZHihuLocalDataSource.getInstance(context);
+        sDataRepository = new ZHihuDataRepository(sZhihuRemoteDataSource, sZHihuLocalDataSource);
         return sZhihuRemoteDataSource;
     }
 
@@ -37,23 +48,22 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
         HttpUtil.sendHttpRequest(Api.LATEST_NEWS, new HttpUtil.IHttpCallbackListenet() {
             @Override
             public void onFinish(String response) {
-                boolean checkUpadate=false;
-                ZhiHuListNews zhiHuListNews=new ZhiHuListNews();
-                Gson gson=new Gson();
-                zhiHuListNews=gson.fromJson(response,ZhiHuListNews.class);
+                boolean checkUpadate = false;
+                ZhiHuListNews zhiHuListNews = new ZhiHuListNews();
+                Gson gson = new Gson();
+                zhiHuListNews = gson.fromJson(response, ZhiHuListNews.class);
 
-                List<ZhiHuList.StoriesBean> storiesBeanList=new ArrayList<ZhiHuList.StoriesBean>();
+                List<ZhiHuList.StoriesBean> storiesBeanList = new ArrayList<ZhiHuList.StoriesBean>();
 
                 for (ZhiHuList.StoriesBean storiesBean : zhiHuListNews.getStories()) {
-                    if(!zhiHuList.getStories().contains(storiesBean)){
-                        checkUpadate=true;
+                    if (!zhiHuList.getStories().contains(storiesBean)) {
+                        checkUpadate = true;
                         zhiHuList.setStories(zhiHuListNews.getStories());
                         checkZhihuListUpdateCallBack.onZHihuListUpdate(zhiHuList);
-                        return ;
+                        return;
                     }
                 }
-
-                    checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
+                checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
 
             }
 
@@ -66,10 +76,8 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
 
     @Override
     public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
-        getZHihuList(ZhihuListHttpUtil.getCurrentDate(), loadZhiHuListCallback);
+        getZHihuList(ZhihuUtil.getCurrentDate(), loadZhiHuListCallback);
     }
-
-
 
 
     @Override
@@ -80,10 +88,8 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
             public void onFinish(String response) {
                 ZhiHuList zhiHuList = new ZhiHuList();
                 Gson gson = new Gson();
-                zhiHuList=gson.fromJson(response,ZhiHuList.class);
-
+                zhiHuList = gson.fromJson(response, ZhiHuList.class);
                 if (zhiHuList != null) {
-
                     loadZhiHuListCallback.onZhiHuListLoaded(Arrays.asList(zhiHuList));
                 } else {
                     loadZhiHuListCallback.onZhiHuListNotAvailable();
@@ -105,21 +111,21 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
     }
 
 
-
     @Override
     public void getZhihu(String id, final GetZhiHuCallback getZhiHuCallback) {
         HttpUtil.sendHttpRequest(Api.DETAILED_CONTENT + id, new HttpUtil.IHttpCallbackListenet() {
             @Override
             public void onFinish(String response) {
-                ZhiHu zhiHu=new ZhiHu();
-                Gson gson=new Gson();
-                zhiHu=gson.fromJson(response,ZhiHu.class);
-                getZhiHuCallback.onZhiHuLoaded(zhiHu);
+                ZhiHu zhiHu = new ZhiHu();
+                Gson gson = new Gson();
+                zhiHu = gson.fromJson(response, ZhiHu.class);
+                if (zhiHu == null) getZhiHuCallback.onZhiHuObtainFailure();
+                else getZhiHuCallback.onZhiHuLoaded(zhiHu);
             }
 
             @Override
             public void onError(Exception e) {
-                getZhiHuCallback.onZhiHuNotAvailable();
+                getZhiHuCallback.onZhiHuObtainFailure();
             }
         });
     }

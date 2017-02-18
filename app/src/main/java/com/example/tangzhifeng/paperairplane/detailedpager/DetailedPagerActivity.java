@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.tangzhifeng.paperairplane.R;
-import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateRepository;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
 import com.example.tangzhifeng.paperairplane.detailedpager.zhihu.ZhihuDetailedFragment;
@@ -57,8 +57,9 @@ public class DetailedPagerActivity extends AppCompatActivity {
         switch (currentMode) {
             case MODE_ZHIHU:
                 ZhihuDetailedFragment zhihuDetailedFragment=new ZhihuDetailedFragment(currentId);
-                new ZhihuDetailedPresenter(zhihuDetailedFragment,new ZhihuDateRepository(
-                        new ZhihuRemoteDataSource(),new ZHihuLocalDataSource()),getApplicationContext());
+                new ZhihuDetailedPresenter(zhihuDetailedFragment,
+                        new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getApplicationContext()),
+                                ZHihuLocalDataSource.getInstance(getApplicationContext())),getApplicationContext());
                 viewPagerAdapter.addFragmentAndTitle(zhihuDetailedFragment);
                 viewPagerAdapter.notifyDataSetChanged();
                 break;
