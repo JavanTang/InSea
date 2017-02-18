@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="#dee0e2"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<cn.bingoogolapple.refreshlayout.BGARefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_modulename_refresh"
+    android:background="#faf9f9"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/recycle_id"
-        android:scrollbars="vertical">
+        >
     </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+</cn.bingoogolapple.refreshlayout.BGARefreshLayout>

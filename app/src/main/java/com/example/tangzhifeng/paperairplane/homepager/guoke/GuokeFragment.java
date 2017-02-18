@@ -3,6 +3,7 @@ package com.example.tangzhifeng.paperairplane.homepager.guoke;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,17 +17,19 @@ import com.example.tangzhifeng.paperairplane.adapter.GuokeRecyclerAdapter;
 import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 import com.example.tangzhifeng.paperairplane.util.LoadNetUtil;
+import com.example.tangzhifeng.paperairplane.util.RecycleItemDecoration;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by WKL on 2017/2/17.
  */
 
-public class GuokeFragment extends Fragment {
+public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
     @InjectView(R.id.recycle_id)
     RecyclerView recycleId;
     List<GuoKe> GuokeList;
@@ -67,6 +70,11 @@ public class GuokeFragment extends Fragment {
         mGuokeRecyclerAdapter = new GuokeRecyclerAdapter(GuokeList);
         LinearLayoutManager LinearLayoutForRecy = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recycleId.setLayoutManager(LinearLayoutForRecy);
+        recycleId.addItemDecoration(
+            new RecycleItemDecoration(getActivity(),
+                LinearLayoutManager.VERTICAL,
+                10, ContextCompat.getColor(getActivity(), R.color.mdtp_white)));
+//        recycleId.addItemDecoration(new RecycleItemDecoration(getActivity(),LinearLayoutManager.VERTICAL));
         mGuokeRecyclerAdapter.setOnItemClickListener(new GuokeRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -88,5 +96,15 @@ public class GuokeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
     }
 }

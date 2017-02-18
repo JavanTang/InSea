@@ -101,9 +101,9 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
         String HeadIconUrl = GuoKelist.get(position).getResult().get(0).getImage();
 
         viewHolder.imageLineIcon.setImageURI(ItemIconUrl);
-        viewHolder.imageLineIcon.setImageURI(HeadIconUrl);
+        viewHolder.headIcon.setImageURI(HeadIconUrl);
         viewHolder.tvGroupName.setText(GuoKelist.get(position).getResult().get(0).getGroup_name());
-        viewHolder.tvContent.setText(GuoKelist.get(position).getResult().get(0).getSummary());
+        viewHolder.tvContent.setText(GuoKelist.get(position).getResult().get(0).getItemtitle());
         viewHolder.tvAuther.setText("By："+GuoKelist.get(position).getResult().get(0).getAuthor());
     }
 
