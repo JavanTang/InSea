@@ -15,6 +15,7 @@ import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
+import com.example.tangzhifeng.paperairplane.homepager.guoke.GuokeFragment;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhiHuHomePresenter;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhihuHomeFagment;
 
@@ -35,6 +36,7 @@ public class HomepagerActivity extends AppCompatActivity {
     ViewPagerAdapter viewPagerAdapter;
 
     ZhihuHomeFagment mZhihuHomeFagment;
+    GuokeFragment mGuokeFragment;
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.tabs)
@@ -51,6 +53,7 @@ public class HomepagerActivity extends AppCompatActivity {
         new ZhiHuHomePresenter(mZhihuHomeFagment,
                 new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getApplicationContext()),
                         ZHihuLocalDataSource.getInstance(getApplicationContext())));
+        mGuokeFragment = new GuokeFragment();
 
 
         setSupportActionBar(mToolbar);
@@ -97,7 +100,7 @@ public class HomepagerActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragmentAndTitle(mZhihuHomeFagment, "知乎日报");
         viewPagerAdapter.addFragmentAndTitle(new ZhihuHomeFagment(), "豆瓣时刻");
-        viewPagerAdapter.addFragmentAndTitle(new ZhihuHomeFagment(), "果壳分钟");
+        viewPagerAdapter.addFragmentAndTitle(mGuokeFragment, "果壳分钟");
         mViewpager.setAdapter(viewPagerAdapter);
 
     }
@@ -127,9 +130,10 @@ public class HomepagerActivity extends AppCompatActivity {
             return mTitle.get(position);
         }
 
-        public void addFragmentAndTitle(ZhihuHomeFagment zhihuHomeFagment, String mTitle) {
+        public void addFragmentAndTitle(Fragment zhihuHomeFagment, String mTitle) {
             mFragmentList.add(zhihuHomeFagment);
             this.mTitle.add(mTitle);
         }
+
     }
 }

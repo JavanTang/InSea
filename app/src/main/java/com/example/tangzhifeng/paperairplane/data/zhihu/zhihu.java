@@ -36,7 +36,7 @@ public class ZhiHu {
     public void setImage_source(String image_source) {
         this.image_source = image_source;
     }
-
+//
     public String getTitle() {
         return title;
     }
