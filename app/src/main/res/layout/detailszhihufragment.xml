@@ -26,8 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:popupTheme="@android:style/ThemeOverlay.Material.Light"
 
-                app:background="@color/colorPrimary"/>
+                />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="match_parent"
