@@ -1,6 +1,7 @@
 package com.example.tangzhifeng.paperairplane.detailedpager.zhihu;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,8 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.tangzhifeng.paperairplane.R.id.toolbar;
+
 /**
  * 作者: tangzhifeng on 2017/2/16.
  * 邮箱: tzfjobmail@gmail.com
@@ -29,7 +32,7 @@ import butterknife.InjectView;
 public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedContract.View {
 
     ZhihuDetailedContract.Presenter mPresenter;
-    @InjectView(R.id.toolbar)
+    @InjectView(toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.detailedTitleImg)
     ImageView mImageView;
@@ -66,6 +69,7 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     @Override
     public void showTitile(String title) {
         mToolbar.setTitle(title);
+
     }
 
     @Override
@@ -107,7 +111,9 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
 //tzf
     @Override
     public void initViews(View view) {
-
+        mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setSubtitleTextColor(Color.WHITE);
+        mToolbar.setTitleTextColor(android.graphics.Color.WHITE);
     }
 
     @Override
