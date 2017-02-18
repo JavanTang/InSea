@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
+import com.example.tangzhifeng.paperairplane.homepager.guoke.GuokeFragment;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhiHuHomePresenter;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhihuHomeFagment;
 
@@ -34,6 +35,7 @@ public class HomepagerActivity extends AppCompatActivity {
     ViewPagerAdapter viewPagerAdapter;
 
     ZhihuHomeFagment mZhihuHomeFagment;
+    GuokeFragment mGuokeFragment;
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.tabs)
@@ -47,6 +49,7 @@ public class HomepagerActivity extends AppCompatActivity {
         setContentView(R.layout.homepageractivity);
         ButterKnife.inject(this);
         mZhihuHomeFagment = new ZhihuHomeFagment();
+        mGuokeFragment = new GuokeFragment();
         new ZhiHuHomePresenter(mZhihuHomeFagment, new ZhihuDateRepository(ZhihuRemoteDataSource.
                 getInstance(), ZhihuRemoteDataSource.getInstance()));
 
@@ -95,7 +98,7 @@ public class HomepagerActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragmentAndTitle(mZhihuHomeFagment, "知乎日报");
         viewPagerAdapter.addFragmentAndTitle(new ZhihuHomeFagment(), "豆瓣时刻");
-        viewPagerAdapter.addFragmentAndTitle(new ZhihuHomeFagment(), "果壳分钟");
+        viewPagerAdapter.addFragmentAndTitle(mGuokeFragment, "果壳分钟");
         mViewpager.setAdapter(viewPagerAdapter);
 
     }
@@ -125,9 +128,10 @@ public class HomepagerActivity extends AppCompatActivity {
             return mTitle.get(position);
         }
 
-        public void addFragmentAndTitle(ZhihuHomeFagment zhihuHomeFagment, String mTitle) {
+        public void addFragmentAndTitle(Fragment zhihuHomeFagment, String mTitle) {
             mFragmentList.add(zhihuHomeFagment);
             this.mTitle.add(mTitle);
         }
+
     }
 }
