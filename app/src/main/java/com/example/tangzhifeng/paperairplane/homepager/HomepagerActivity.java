@@ -12,7 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.tangzhifeng.paperairplane.R;
-import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateRepository;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhiHuHomePresenter;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhihuHomeFagment;
@@ -47,8 +48,9 @@ public class HomepagerActivity extends AppCompatActivity {
         setContentView(R.layout.homepageractivity);
         ButterKnife.inject(this);
         mZhihuHomeFagment = new ZhihuHomeFagment();
-        new ZhiHuHomePresenter(mZhihuHomeFagment, new ZhihuDateRepository(ZhihuRemoteDataSource.
-                getInstance(), ZhihuRemoteDataSource.getInstance()));
+        new ZhiHuHomePresenter(mZhihuHomeFagment,
+                new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getApplicationContext()),
+                        ZHihuLocalDataSource.getInstance(getApplicationContext())));
 
 
         setSupportActionBar(mToolbar);

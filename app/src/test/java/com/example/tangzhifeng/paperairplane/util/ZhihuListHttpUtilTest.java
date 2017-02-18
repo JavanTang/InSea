@@ -15,8 +15,8 @@ public class ZhihuListHttpUtilTest {
 
     @Test
     public void getCurrentDate() throws Exception {
-        System.out.println(ZhihuListHttpUtil.getCurrentDate());
-        System.out.println(ZhihuListHttpUtil.getSpecifiedDayBefore("20170201"));
+        System.out.println(ZhihuUtil.getCurrentDate());
+        System.out.println(ZhihuUtil.getSpecifiedDayBefore("20170201"));
     }
 
 }

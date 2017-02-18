@@ -15,41 +15,85 @@ import java.util.List;
 public interface ZhihuDateSource {
 
 
-    interface LoadZhiHuListCallback{
+    /**
+     * 回调加载ZhihuList的结果
+     */
+    interface LoadZhiHuListCallback {
+        /**
+         * @param zhiHuLists 返回ZhihuList列表数据
+         */
         void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists);
+
+        /**
+         * ZhihuList列表数据返回失败
+         */
         void onZhiHuListNotAvailable();
     }
 
-    interface GetZhiHuCallback{
+    interface GetZhiHuCallback {
+        /**
+         * @param zhiHu 返回Zhihu数据
+         */
         void onZhiHuLoaded(ZhiHu zhiHu);
-        void onZhiHuNotAvailable();
+
+        /**
+         * 返回Zhihu数据失败
+         */
+        void onZhiHuObtainFailure();
     }
 
-    interface CheckZhihuListUpdateCallBack{
+    interface CheckZhihuListUpdateCallBack {
+        /**
+         * @param zhiHuList 返回更新过后的数据
+         */
         void onZHihuListUpdate(ZhiHuList zhiHuList);
+
+        /**
+         * 数据已经不用更新了
+         */
         void onZhihuListNotUpdate();
     }
 
-    //检查知乎日报是否更新
-    void isZhihuListUpdate(ZhiHuList zhiHuList,CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack);
+    /**
+     * 检查知乎日报是否更新
+     *
+     * @param zhiHuList                    需要验证的zhihulist
+     * @param checkZhihuListUpdateCallBack 回调函数
+     */
+    //
+    void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack);
 
-    //获取知乎日报列表集合
+    /**
+     * 获取最新知乎日报列表集合,通过LoadZhiHuListCallback来接收
+     * 获取
+     *
+     * @param loadZhiHuListCallback 回调函数
+     */
+    //
     void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback);
-    void getZHihuList(String date,LoadZhiHuListCallback loadZhiHuListCallback);
+
+    /**
+     * 根据date来返回知乎日报的集合,通过LoadZhiHuListCallback来接收
+     *
+     * @param date                  时间,例如20170215
+     * @param loadZhiHuListCallback 回调函数
+     */
+    void getZHihuList(String date, LoadZhiHuListCallback loadZhiHuListCallback);
+
 
     //保存知乎日报列表
     void saveZhiHuList(List<ZhiHuList> zhiHuLists);
 
     //获取知乎详细信息
-    void getZhihu(String id,GetZhiHuCallback getZhiHuCallback);
+    void getZhihu(String id, GetZhiHuCallback getZhiHuCallback);
 
     //保存知乎详细信息
     void saveZhihu(ZhiHu zhiHu);
 
     //删除知乎详细信息
     void deleteZhiHu(ZhiHu zhiHu);
-    void deleteZhiHu(String id);
 
+    void deleteZhiHu(String id);
 
 
 }

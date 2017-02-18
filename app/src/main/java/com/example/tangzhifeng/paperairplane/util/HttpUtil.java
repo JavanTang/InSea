@@ -42,9 +42,10 @@ public class HttpUtil {
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-
+                    Log.i(TAG, "run: "+response.toString());
                     httpCallbackListenet.onFinish(response.toString());
                 } catch (Exception e) {
+                    e.printStackTrace();
                     Log.i(TAG, "run: " + address);
                     httpCallbackListenet.onError(e);
                 } finally {
@@ -99,5 +100,7 @@ public class HttpUtil {
         }).start();
 
     }
+
+
 
 }
