@@ -86,6 +86,14 @@ public class LoadNetUtil {
         resultBean.headline_img = jsonData.getString("headline_img");
 //               获取作者
         resultBean.author = jsonData.getString("author");
+        //        item的title
+        resultBean.itemtitle = jsonData.getString("title");
+//        获取喜欢的数量
+        resultBean.setLikings_count(jsonData.getInt("likings_count"));
+//        获取评论数
+        resultBean.setReplies_count(jsonData.getInt("replies_count"));
+//        获取创建时间
+        resultBean.setDate_created(jsonData.getDouble("date_created"));
         guoke.result = new ArrayList<>();
         guoke.result.add(resultBean);
         return guoke;

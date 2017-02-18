@@ -77,6 +77,7 @@ public class GuoKe {
         private String source_name;
         private String video_url;
         private boolean current_user_has_collected;
+//        点赞数
         private int likings_count;
         private Object video_duration;
         private int id;
@@ -96,6 +97,7 @@ public class GuoKe {
         /*
         item显示的Icon图片*/
         public String headline_img;
+//        回复数
         private int replies_count;
         private boolean current_user_has_liked;
 //        详情页地址
@@ -107,6 +109,16 @@ public class GuoKe {
         private String source;
         private int reply_root_id;
         private double date_created;
+
+        public String getItemtitle() {
+            return itemtitle;
+        }
+
+        public void setItemtitle(String itemtitle) {
+            this.itemtitle = itemtitle;
+        }
+
+        public String itemtitle;
         public String image;
 
         public String getImage() {
@@ -116,6 +128,7 @@ public class GuoKe {
         public void setImage(String image) {
             this.image = image;
         }
+
         public String getLink_v2_sync_img() {
             return link_v2_sync_img;
         }
