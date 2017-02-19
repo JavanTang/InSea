@@ -138,7 +138,11 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        GuokeList.clear();
+                        GuokeList=new ArrayList<GuoKe>();
                         GuokeList = LoadNetUtil.GetJsonData(response);
+
                         mGuokeRecyclerAdapter.setGuoKelist(GuokeList);
                         mGuokeRecyclerAdapter.notifyDataSetChanged();
                         freshUI();
