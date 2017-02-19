@@ -55,7 +55,7 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     class MyViewHolder extends RecyclerView.ViewHolder{
         SimpleDraweeView imageLineIcon,headIcon;
-        TextView tvGroupName,tvContent,tvAuther;
+        TextView tvGroupName,tvContent,tvAuther,tvlikingCount,tvCommemtCount;
         public MyViewHolder(View itemView) {
             super(itemView);
             headIcon = (SimpleDraweeView) itemView.findViewById(R.id.head_icon);
@@ -63,6 +63,8 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
             imageLineIcon = (SimpleDraweeView) itemView.findViewById(R.id.img_item_guoke);
             tvContent = (TextView) itemView.findViewById(R.id.Content_item_guoke);
             tvAuther = (TextView) itemView.findViewById(R.id.auther_id);
+            tvlikingCount = (TextView) itemView.findViewById(R.id.liking_count);
+            tvCommemtCount = (TextView) itemView.findViewById(R.id.comment_count);
         }
     }
     //创建新View，被LayoutManager所调用
@@ -105,6 +107,9 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
         viewHolder.tvGroupName.setText(GuoKelist.get(position).getResult().get(0).getGroup_name());
         viewHolder.tvContent.setText(GuoKelist.get(position).getResult().get(0).getItemtitle());
         viewHolder.tvAuther.setText("By："+GuoKelist.get(position).getResult().get(0).getAuthor());
+        viewHolder.tvlikingCount.setText(GuoKelist.get(position).getResult().get(0).getLikings_count()+"");
+        viewHolder.tvCommemtCount.setText(GuoKelist.get(position).getResult().get(0).getReplies_count());
+
     }
 
     @Override

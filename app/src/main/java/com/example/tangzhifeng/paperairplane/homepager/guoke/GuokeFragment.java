@@ -19,40 +19,64 @@ import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 import com.example.tangzhifeng.paperairplane.util.LoadNetUtil;
 import com.example.tangzhifeng.paperairplane.util.RecycleItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 
 /**
  * Created by WKL on 2017/2/17.
  */
 
-public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
     @InjectView(R.id.recycle_id)
     RecyclerView recycleId;
     List<GuoKe> GuokeList;
     LoadNetUtil mLoadNetUtil;
     GuokeRecyclerAdapter mGuokeRecyclerAdapter;
+    @InjectView(R.id.guoke_refresh)
+    BGARefreshLayout guokeRefresh;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.guokefragment, container, false);
         ButterKnife.inject(this, view);
+        initRefresh();
         initView();
         return view;
     }
 
+    private void initRefresh() {
+//        设置刷新与监听
+        // 为BGARefreshLayout 设置代理
+        guokeRefresh.setDelegate(this);
+        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+        BGARefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(getContext(), true);
+        // 设置下拉刷新和上拉加载更多的风格
+        guokeRefresh.setRefreshViewHolder(refreshViewHolder);
+    }
+
     private void initView() {
-        mLoadNetUtil=new LoadNetUtil();
+//        mLoadNetUtil = new LoadNetUtil();
         //tzf start
         HttpUtil.sendHttpRequest(LoadNetUtil.GUOKE_URL, new HttpUtil.IHttpCallbackListenet() {
             @Override
-            public void onFinish(String response) {
-                GuokeList=LoadNetUtil.GetJsonData(response);
-                mGuokeRecyclerAdapter.setGuoKelist(GuokeList);
-                mGuokeRecyclerAdapter.notifyDataSetChanged();
+            public void onFinish(final String response) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        GuokeList = LoadNetUtil.GetJsonData(response);
+                        mGuokeRecyclerAdapter.notifyDataSetChanged();
+                        mGuokeRecyclerAdapter.setGuoKelist(GuokeList);
+                        mGuokeRecyclerAdapter.notifyDataSetChanged();
+                    }
+                });
+
             }
 
             @Override
@@ -63,12 +87,13 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
 
         //tzf end
 
-        LoadNetUtil.MyAsyncTask mAsyncTask = new LoadNetUtil.MyAsyncTask();
-        mAsyncTask.execute(mLoadNetUtil.GUOKE_URL);
-        GuokeList = mAsyncTask.GuokeList1;
-        Log.i("TAG", "initView: " + GuokeList.size());
+//        LoadNetUtil.MyAsyncTask mAsyncTask = new LoadNetUtil.MyAsyncTask();
+//        mAsyncTask.execute(mLoadNetUtil.GUOKE_URL);
+//        GuokeList = mAsyncTask.GuokeList1;
+//        Log.i("TAG", "initView: " + GuokeList.size());
+        GuokeList=new ArrayList<>();
         mGuokeRecyclerAdapter = new GuokeRecyclerAdapter(GuokeList);
-        LinearLayoutManager LinearLayoutForRecy = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager LinearLayoutForRecy = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recycleId.setLayoutManager(LinearLayoutForRecy);
         recycleId.addItemDecoration(
             new RecycleItemDecoration(getActivity(),
@@ -78,7 +103,7 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
         mGuokeRecyclerAdapter.setOnItemClickListener(new GuokeRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), ""+GuokeList.get(position).getResult().get(0).getSummary(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + GuokeList.get(position).getResult().get(0).getSummary(), Toast.LENGTH_SHORT).show();
             }
         });
         mGuokeRecyclerAdapter.setOnItemLongClickListener(new GuokeRecyclerAdapter.OnItemLongClickListener() {
@@ -98,9 +123,40 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
         ButterKnife.reset(this);
     }
 
-    @Override
-    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+    public void freshUI(){
+        guokeRefresh.endLoadingMore();
+    }
 
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing( BGARefreshLayout refreshLayout) {
+        Log.i("tzf", "onBGARefreshLayoutBeginRefreshing: 00000000000000000000000000000000000000000000000000000000000000000000000");
+        HttpUtil.sendHttpRequest(LoadNetUtil.GUOKE_URL, new HttpUtil.IHttpCallbackListenet() {
+            @Override
+            public void onFinish(final String response) {
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        GuokeList = LoadNetUtil.GetJsonData(response);
+                        mGuokeRecyclerAdapter.setGuoKelist(GuokeList);
+                        mGuokeRecyclerAdapter.notifyDataSetChanged();
+                        freshUI();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        freshUI();
+                    }
+                });
+            }
+        });
+        refreshLayout.endLoadingMore();
     }
 
     @Override

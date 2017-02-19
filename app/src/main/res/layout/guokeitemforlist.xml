@@ -70,7 +70,7 @@
             />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
@@ -84,6 +84,46 @@
             android:text="By：wkl"
             android:textAllCaps="false"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"/>
+        <ImageView
+
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/collect_icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:text="8"
+            android:maxLines="1"
+            android:layout_marginBottom="7dp"
+            android:layout_marginRight="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/liking_count"
+            />
+        <ImageView
+
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/comment_icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:text="3"
+            android:maxLines="1"
+            android:layout_marginBottom="7dp"
+            android:layout_marginRight="13dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/comment_count"
+            />
+    </RelativeLayout>
 </RelativeLayout>

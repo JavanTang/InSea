@@ -78,7 +78,7 @@ public class GuoKe {
         private String video_url;
         private boolean current_user_has_collected;
 //        点赞数
-        private int likings_count;
+        public int likings_count;
         private Object video_duration;
         private int id;
         private String category;
@@ -98,7 +98,7 @@ public class GuoKe {
         item显示的Icon图片*/
         public String headline_img;
 //        回复数
-        private int replies_count;
+        public String replies_count;
         private boolean current_user_has_liked;
 //        详情页地址
         private String page_source;
@@ -265,11 +265,11 @@ public class GuoKe {
             this.headline_img = headline_img;
         }
 
-        public int getReplies_count() {
+        public String getReplies_count() {
             return replies_count;
         }
 
-        public void setReplies_count(int replies_count) {
+        public void setReplies_count(String replies_count) {
             this.replies_count = replies_count;
         }
 
