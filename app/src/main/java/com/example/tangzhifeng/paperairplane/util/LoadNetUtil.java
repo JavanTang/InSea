@@ -89,10 +89,18 @@ public class LoadNetUtil {
         //        item的title
         resultBean.itemtitle = jsonData.getString("title");
 //        获取喜欢的数量
-        resultBean.setLikings_count(jsonData.getInt("likings_count"));
+        resultBean.likings_count =jsonData.getInt("likings_count");
 //        获取评论数
-        resultBean.setReplies_count(jsonData.getInt("replies_count"));
+
+       if (jsonData.getString("replies_count").equals("null")||jsonData.getString("replies_count") == null){
+           resultBean.replies_count = 0+"";
+       }
+        else{
+           resultBean.replies_count = jsonData.getString("replies_count");
+       }
+
 //        获取创建时间
+        Log.i("wkl", "getGuoKe: "+jsonData.getString("replies_count"));
         resultBean.setDate_created(jsonData.getDouble("date_created"));
         guoke.result = new ArrayList<>();
         guoke.result.add(resultBean);
