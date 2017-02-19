@@ -89,13 +89,6 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                WebSettings webSettings=mWebView.getSettings();
-//                webSettings.setUseWideViewPort(true);
-//                webSettings.setLoadWithOverviewMode(true);
-//                String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/css/news.css\" type=\"text/css\">";
-//                String html = "<html><head>" + css + "</head><body>" + zhiHu.getBody() + "</body></html>";
-//                html = html.replace("<div class=\"img-place-holder\">", "");
-//                mWebView.loadDataWithBaseURL("x-data://base", html, "text/html", "UTF-8", null);
                 mWebView.loadDataWithBaseURL("x-data://base",zhiHu.getBody(),"text/html","utf-8",null);
                 mImageView.setImageURI(Uri.parse(zhiHu.getImage()));
                 mToolbar.setTitle(zhiHu.getTitle());
@@ -108,7 +101,7 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     public void setPresenter(ZhihuDetailedContract.Presenter presenter) {
         mPresenter = presenter;
     }
-//tzf
+
     @Override
     public void initViews(View view) {
         mToolbar.setTitleTextColor(Color.WHITE);

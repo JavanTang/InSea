@@ -12,7 +12,6 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,7 +67,9 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
         }
         zhiHuList.setStories(storiesBeanList);
         if(storiesBeanList.size()>0){
-            loadZhiHuListCallback.onZhiHuListLoaded(Arrays.asList(zhiHuList));
+            List<ZhiHuList> zhiHuLists=new ArrayList<>();
+            zhiHuLists.add(zhiHuList);
+            loadZhiHuListCallback.onZhiHuListLoaded(zhiHuLists);
         }else{
             loadZhiHuListCallback.onZhiHuListNotAvailable();
         }

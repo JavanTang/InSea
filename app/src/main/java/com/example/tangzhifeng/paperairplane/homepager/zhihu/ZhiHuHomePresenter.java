@@ -13,6 +13,7 @@ import com.example.tangzhifeng.paperairplane.detailedpager.DetailedPagerActivity
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 import com.example.tangzhifeng.paperairplane.util.ZhihuUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,9 +39,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
     @Override
     public void start() {
 
-        if (HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mView.showDropDownRefresh();
-        } else {
+
             mZhihuDateRepository.localData.getZhiHuList(new ZhihuDateSource.LoadZhiHuListCallback() {
                 @Override
                 public void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists) {
@@ -52,7 +51,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
                 }
             });
-        }
+
 
     }
 
@@ -67,10 +66,12 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
         mZhihuDateRepository.isZhihuListUpdate(lists.get(0), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
             @Override
             public void onZHihuListUpdate(ZhiHuList zhiHuList) {
+                List<ZhiHuList> zhiHuLists=new ArrayList<ZhiHuList>();
+                zhiHuLists=zhihuRecycleAdapter.getZhiHuLists();
 
-
-                zhihuRecycleAdapter.getZhiHuLists().remove(0);
-                zhihuRecycleAdapter.getZhiHuLists().add(0, zhiHuList);
+                zhiHuLists.remove(0);
+                zhiHuLists.add(0,zhiHuList);
+                zhihuRecycleAdapter.setZhiHuLists(zhiHuLists);
 
                 for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
                     mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
