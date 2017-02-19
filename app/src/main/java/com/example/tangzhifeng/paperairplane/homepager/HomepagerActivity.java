@@ -69,7 +69,7 @@ public class HomepagerActivity extends AppCompatActivity {
 
         mTabs.setupWithViewPager(mViewpager);
         //这段代码有预加载的功能但是会受到果壳的影响
-//        mViewpager.setOffscreenPageLimit(3);
+        mViewpager.setOffscreenPageLimit(3);
         mViewpager.setCurrentItem(0);
         mTabs.setId(0);
 

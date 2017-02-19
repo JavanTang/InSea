@@ -125,6 +125,7 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
 
     public void freshUI(){
         guokeRefresh.endLoadingMore();
+        guokeRefresh.endRefreshing();
     }
 
     @Override
