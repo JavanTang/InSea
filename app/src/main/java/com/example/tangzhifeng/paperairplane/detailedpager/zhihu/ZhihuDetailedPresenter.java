@@ -2,7 +2,12 @@ package com.example.tangzhifeng.paperairplane.detailedpager.zhihu;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;

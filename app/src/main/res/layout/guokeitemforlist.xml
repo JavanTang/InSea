@@ -26,12 +26,11 @@
 
         <TextView
             android:text="这是测试的信息，暂时的，不要过多关注"
-            android:gravity="center_horizontal"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:maxLines="4"
             android:textAllCaps="false"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:id="@+id/Content_item_guoke"
             android:layout_marginTop="14dp"
             android:layout_marginRight="20dp"
@@ -89,8 +88,8 @@
 
             android:layout_marginRight="50dp"
             android:layout_alignParentRight="true"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
             android:src="@drawable/collect_icon"
             />
         <TextView
@@ -109,9 +108,9 @@
 
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/comment_icon"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:src="@drawable/coment_icon"
             />
         <TextView
             android:layout_width="wrap_content"

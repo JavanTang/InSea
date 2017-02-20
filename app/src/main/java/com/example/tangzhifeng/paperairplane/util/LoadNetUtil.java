@@ -76,6 +76,8 @@ public class LoadNetUtil {
         GuoKe.ResultBean resultBean = new GuoKe.ResultBean();
         JSONObject jsonData = jsonArray.getJSONObject(i);
         JSONObject jsondataforSourceBean = jsonData.getJSONObject("source_data");
+//       获取详情页Url
+        resultBean.link = jsonData.getString("link");
 //                获取果壳小组头像
         resultBean.image = jsondataforSourceBean.getString("image");
 //               获取果壳小组名称

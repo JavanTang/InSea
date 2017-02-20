@@ -1,12 +1,13 @@
 package com.example.tangzhifeng.paperairplane.data.guoke;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/17.
  */
 
-public class GuoKe {
+public class GuoKe implements Serializable{
 
     /**By : WKL
      * now : 2017-02-17T12:30:48.664248+08:00
@@ -44,7 +45,7 @@ public class GuoKe {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable{
         /**
          * link_v2_sync_img : http://jingxuan.guokr.com/pick/v2/78912/sync/
          * source_name : 闪电侠！
@@ -330,7 +331,7 @@ public class GuoKe {
         }
 
 
-        public static class SourceDataBean {
+        public static class SourceDataBean implements Serializable{
             /**
              * image : http://2.im.guokr.com/r8PINb_RG_niPP_rsxxvHLK7HmQE9i1NZD6pWV_0VDKgAAAAoAAAAFBO.png?imageView2/1/w/160/h/160
              * summary : 今天你看了什么好玩儿的新闻！
