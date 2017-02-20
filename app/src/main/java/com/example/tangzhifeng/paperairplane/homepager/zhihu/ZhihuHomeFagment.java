@@ -102,12 +102,11 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-//        saveStateToArgments();
     }
 
     @Override
     public void showDropDownRefresh() {
-        onBGARefreshLayoutBeginRefreshing(mRefreshLayout);
+        mRefreshLayout.beginRefreshing();
     }
 
     @Override
@@ -183,6 +182,7 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        mZhiHuLists=mZhihuRecycleAdapter.getZhiHuLists();
         if (HttpUtil.isNetworkAvailable(getContext())) {
             mPresenter.pullToRefresh(mZhiHuLists, mZhihuRecycleAdapter);
             return true;

@@ -20,14 +20,15 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     private static final String BOOLEAN_TYPE = " INTEGER";
     private static final String COMMA = ",";
     //数据库版本号
-    public static final int INSEA_DB_VERSION = 1;
+    public static final int INSEA_DB_VERSION = 2;
     //创建知乎表
     public static final String ZHIHU_CREATER = "create table " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + "("
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID + TEXT_TYPE + " primary key" + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE + TEXT_TYPE + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY + TEXT_TYPE + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG + TEXT_TYPE + COMMA
-            + ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG + TEXT_TYPE
+            + ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG + TEXT_TYPE + COMMA
+            + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE + TEXT_TYPE
             + ")";
 
     public InSeaDbHelper(Context context) {
@@ -52,6 +53,10 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     //放置更新表的语句
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        switch (newVersion) {
+            case 1:
+                db.execSQL("ALTER TABLE "+ ZhihuPersistencContract.ZhihuEntry.TABLE_NAME+" ADD COLUMN "+ ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE);
+            case 2:
+        }
     }
 }

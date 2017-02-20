@@ -20,6 +20,16 @@ public class ZhiHu {
     private List<?> js;
     private List<String> images;
     private List<String> css;
+    //自己添加一个数据Date
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getBody() {
         return body;

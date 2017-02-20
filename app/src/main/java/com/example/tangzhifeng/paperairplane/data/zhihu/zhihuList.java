@@ -50,6 +50,15 @@ public class ZhiHuList {
         private String title;
         private boolean multipic;
         private List<String> images;
+        private String date;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
 
         public int getType() {
             return type;

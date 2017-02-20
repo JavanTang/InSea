@@ -2,6 +2,7 @@ package com.example.tangzhifeng.paperairplane.homepager.zhihu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.tangzhifeng.paperairplane.MyApplication;
 import com.example.tangzhifeng.paperairplane.adapter.ZhihuRecycleAdapter;
@@ -11,10 +12,11 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataReposito
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 import com.example.tangzhifeng.paperairplane.detailedpager.DetailedPagerActivity;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
-import com.example.tangzhifeng.paperairplane.util.ZhihuUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * 作者: tangzhifeng on 2017/2/15.
@@ -40,82 +42,32 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
     public void start() {
 
 
-            mZhihuDateRepository.localData.getZhiHuList(new ZhihuDateSource.LoadZhiHuListCallback() {
-                @Override
-                public void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists) {
-                    mView.showZhiHuList(zhiHuLists);
-                }
-
-                @Override
-                public void onZhiHuListNotAvailable() {
-
-                }
-            });
-
-
-    }
-
-
-    @Override
-    public void dropDownRefresh(List<ZhiHuList> lists, final ZhihuRecycleAdapter zhihuRecycleAdapter) {
-        if (!HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mView.stopDropToRefresh();
-            mView.stopPullToRefresh();
-            return;
-        }
-        mZhihuDateRepository.isZhihuListUpdate(lists.get(0), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
-            @Override
-            public void onZHihuListUpdate(ZhiHuList zhiHuList) {
-                List<ZhiHuList> zhiHuLists=new ArrayList<ZhiHuList>();
-                zhiHuLists=zhihuRecycleAdapter.getZhiHuLists();
-
-                zhiHuLists.remove(0);
-                zhiHuLists.add(0,zhiHuList);
-                zhihuRecycleAdapter.setZhiHuLists(zhiHuLists);
-
-                for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
-                    mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
-                        @Override
-                        public void onZhiHuLoaded(ZhiHu zhiHu) {
-                            mZhihuDateRepository.saveZhihu(zhiHu);
-                        }
-
-                        @Override
-                        public void onZhiHuObtainFailure() {
-                        }
-                    });
-
-                }
-                mView.stopDropToRefresh();
-                mView.stopPullToRefresh();
-
-
-            }
-
-            @Override
-            public void onZhihuListNotUpdate() {
-                mView.showZhihuListNotUpdate();
-            }
-        });
-    }
-
-    @Override
-    public void pullToRefresh(List<ZhiHuList> lists, final ZhihuRecycleAdapter zhihuRecycleAdapter) {
-        if (!HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mView.stopDropToRefresh();
-            mView.stopPullToRefresh();
-            return;
-        }
-        mZhihuDateRepository.getZHihuList(ZhihuUtil.getSpecifiedDayBefore(lists.get(lists.size() - 1).getDate()), new ZhihuDateSource.LoadZhiHuListCallback() {
+        mZhihuDateRepository.localData.getZhiHuList(new ZhihuDateSource.LoadZhiHuListCallback() {
             @Override
             public void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists) {
+                mView.showZhiHuList(zhiHuLists);
+            }
 
-                zhihuRecycleAdapter.getZhiHuLists().add(zhiHuLists.size(), zhiHuLists.get(0));
-                for (ZhiHuList zhiHuList : zhiHuLists) {
+            @Override
+            public void onZhiHuListNotAvailable() {
+
+            }
+        });
+
+        if (HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
+            mZhihuDateRepository.isZhihuListUpdate(new ZhiHuList(), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
+                @Override
+                public void onZHihuListUpdate(final ZhiHuList zhiHuList) {
+                    List<ZhiHuList> zhiHuLists = new ArrayList<ZhiHuList>();
+                    zhiHuLists.add(zhiHuList);
+                    mView.showZhiHuList(zhiHuLists);
+
+
                     for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
                         mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
                             @Override
                             public void onZhiHuLoaded(ZhiHu zhiHu) {
+                                zhiHu.setDate(zhiHuList.getDate());
                                 mZhihuDateRepository.saveZhihu(zhiHu);
                             }
 
@@ -126,8 +78,104 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
                     }
                 }
+
+                @Override
+                public void onZhihuListNotUpdate() {
+
+                }
+            });
+        }
+    }
+
+
+    @Override
+    public void dropDownRefresh(final List<ZhiHuList> lists, final ZhihuRecycleAdapter zhihuRecycleAdapter) {
+        if (!HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
+            mView.stopDropToRefresh();
+            mView.stopPullToRefresh();
+            return;
+        }
+        mZhihuDateRepository.isZhihuListUpdate(lists.get(0), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
+            @Override
+            public void onZHihuListUpdate(final ZhiHuList zhiHuList) {
+                List<ZhiHuList> zhiHuLists = new ArrayList<ZhiHuList>();
+                zhiHuLists = zhihuRecycleAdapter.getZhiHuLists();
+
+                zhiHuLists.remove(0);
+                zhiHuLists.add(0, zhiHuList);
+                zhihuRecycleAdapter.setZhiHuLists(zhiHuLists);
+
+                for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
+                    mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
+                        @Override
+                        public void onZhiHuLoaded(ZhiHu zhiHu) {
+                            zhiHu.setDate(zhiHuList.getDate());
+                            mZhihuDateRepository.saveZhihu(zhiHu);
+                        }
+
+                        @Override
+                        public void onZhiHuObtainFailure() {
+                        }
+                    });
+
+                }
+
                 mView.stopDropToRefresh();
                 mView.stopPullToRefresh();
+
+            }
+
+            @Override
+            public void onZhihuListNotUpdate() {
+                mView.stopDropToRefresh();
+                mView.stopPullToRefresh();
+                mView.showZhihuListNotUpdate();
+            }
+        });
+    }
+
+    @Override
+    public void pullToRefresh(final List<ZhiHuList> lists, final ZhihuRecycleAdapter zhihuRecycleAdapter) {
+        if (!HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
+            mView.stopDropToRefresh();
+            mView.stopPullToRefresh();
+            return;
+        }
+//lists.get(lists.size() - 1).getDate()
+        String date;
+        if (lists.get(lists.size() - 1).getStories().get(0).getDate()!=null){
+             date=lists.get(lists.size() - 1).getStories().get(0).getDate();
+        }else
+        {
+            date=lists.get(lists.size() - 1).getDate();
+        }
+
+        mZhihuDateRepository.getZHihuList(date, new ZhihuDateSource.LoadZhiHuListCallback() {
+            @Override
+            public void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists) {
+                lists.add(zhiHuLists.get(0));
+                zhihuRecycleAdapter.setZhiHuLists(lists);
+                for (final ZhiHuList zhiHuList : zhiHuLists) {
+                    for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
+                        mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
+                            @Override
+                            public void onZhiHuLoaded(ZhiHu zhiHu) {
+                                zhiHu.setDate(zhiHuList.getDate());
+                                mZhihuDateRepository.saveZhihu(zhiHu);
+                            }
+
+                            @Override
+                            public void onZhiHuObtainFailure() {
+                                Log.i(TAG, "onZhiHuObtainFailure: !!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            }
+                        });
+
+                    }
+                }
+                mView.stopDropToRefresh();
+                mView.stopPullToRefresh();
+
+
             }
 
             @Override
@@ -135,6 +183,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
                 mView.showNetwordNotAvailable();
             }
         });
+
     }
 
     @Override

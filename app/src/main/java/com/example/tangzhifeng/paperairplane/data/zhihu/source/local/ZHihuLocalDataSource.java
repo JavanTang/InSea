@@ -5,11 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
+import com.example.tangzhifeng.paperairplane.util.ZhihuUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,8 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
     private InSeaDbHelper mInSeaDbHelper;
 
     public static final String TAG = "tzf";
+
+
 
     private ZHihuLocalDataSource(Context context) {
         mInSeaDbHelper = new InSeaDbHelper(context);
@@ -43,7 +45,7 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
     }
 
     @Override
-    public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
+    public synchronized void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
         SQLiteDatabase db=mInSeaDbHelper.getReadableDatabase();
         Cursor c=db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME,null,null,null,null,null,null);
         ZhiHuList zhiHuList=new ZhiHuList();
@@ -55,20 +57,25 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
                 String Zhihu_img = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG));
                 String Zhihu_body = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY));
                 String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
+                String Zhihu_date = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
 
                 ZhiHuList.StoriesBean storiesBean=new ZhiHuList.StoriesBean();
                 storiesBean.setTitle(Zhihu_title);
                 storiesBean.setId(Integer.valueOf(ZHihu_id));
+                storiesBean.setDate(Zhihu_date);
                 List<String> imgs=new ArrayList<>();
                 imgs.add(Zhihu_img);
                 storiesBean.setImages(imgs);
                 storiesBeanList.add(storiesBean);
+
+                zhiHuList.setDate(Zhihu_date);
             }
         }
         zhiHuList.setStories(storiesBeanList);
         if(storiesBeanList.size()>0){
             List<ZhiHuList> zhiHuLists=new ArrayList<>();
             zhiHuLists.add(zhiHuList);
+            zhiHuLists.get(0).setDate(ZhihuUtil.getCurrentDate());
             loadZhiHuListCallback.onZhiHuListLoaded(zhiHuLists);
         }else{
             loadZhiHuListCallback.onZhiHuListNotAvailable();
@@ -88,7 +95,7 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
 
 
     @Override
-    public void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {
+    public synchronized void getZhihu(String id, GetZhiHuCallback getZhiHuCallback) {
         SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
 
         Cursor c = db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME, null
@@ -102,12 +109,13 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
             String Zhihu_img = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG));
             String Zhihu_body = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY));
             String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
-
+            String Zhihu_date=c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
             ZhiHu zhiHu = new ZhiHu();
             zhiHu.setBody(Zhihu_body);
             zhiHu.setTitle(Zhihu_title);
             zhiHu.setImage(Zhihu_img);
             zhiHu.setId(Integer.valueOf(id));
+            zhiHu.setDate(Zhihu_date);
             getZhiHuCallback.onZhiHuLoaded(zhiHu);
 
         } else {
@@ -122,20 +130,22 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
     }
 
     @Override
-    public void saveZhihu(ZhiHu zhiHu) {
+    public synchronized void saveZhihu(ZhiHu zhiHu) {
         SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID, zhiHu.getId());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY, zhiHu.getBody());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE, zhiHu.getTitle());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG, zhiHu.getImage());
+        contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE, zhiHu.getDate());
+
         if (zhiHu.getImages() == null) {
             contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG, zhiHu.getImage());
-        } else
+        } else {
             contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG, zhiHu.getImages().get(0));
+        }
         db.insert(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME, null, contentValues);
         db.close();
-        Log.i(TAG, "id=" + zhiHu.getId() + ",保存完毕!");
     }
 
 
@@ -149,7 +159,7 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
 
     }
 
-    public boolean isCheckId(String id){
+    public synchronized boolean isCheckId(String id){
         boolean make=true;
         SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
 
@@ -166,6 +176,8 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
             c.close();
         }
         db.close();
+
+
         return make;
     }
 }
