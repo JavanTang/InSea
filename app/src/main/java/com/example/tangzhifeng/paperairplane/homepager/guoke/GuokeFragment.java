@@ -1,5 +1,6 @@
 package com.example.tangzhifeng.paperairplane.homepager.guoke;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.adapter.GuokeRecyclerAdapter;
 import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
+import com.example.tangzhifeng.paperairplane.detailedpager.guoke.GuokeDetailActivity;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 import com.example.tangzhifeng.paperairplane.util.LoadNetUtil;
 import com.example.tangzhifeng.paperairplane.util.RecycleItemDecoration;
@@ -71,7 +72,6 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
                     @Override
                     public void run() {
                         GuokeList = LoadNetUtil.GetJsonData(response);
-                        mGuokeRecyclerAdapter.notifyDataSetChanged();
                         mGuokeRecyclerAdapter.setGuoKelist(GuokeList);
                         mGuokeRecyclerAdapter.notifyDataSetChanged();
                     }
@@ -93,17 +93,32 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
 //        Log.i("TAG", "initView: " + GuokeList.size());
         GuokeList=new ArrayList<>();
         mGuokeRecyclerAdapter = new GuokeRecyclerAdapter(GuokeList);
-        LinearLayoutManager LinearLayoutForRecy = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager LinearLayoutForRecy =
+            new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+
         recycleId.setLayoutManager(LinearLayoutForRecy);
         recycleId.addItemDecoration(
             new RecycleItemDecoration(getActivity(),
                 LinearLayoutManager.VERTICAL,
                 10, ContextCompat.getColor(getActivity(), R.color.mdtp_white)));
-//        recycleId.addItemDecoration(new RecycleItemDecoration(getActivity(),LinearLayoutManager.VERTICAL));
+
         mGuokeRecyclerAdapter.setOnItemClickListener(new GuokeRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), "" + GuokeList.get(position).getResult().get(0).getSummary(), Toast.LENGTH_SHORT).show();
+                Intent newIntent = new Intent(getActivity(), GuokeDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("guoke",GuokeList.get(position));
+                newIntent.putExtra("bundle",bundle);
+                newIntent.putExtra("position",position);
+                Log.i("wkl", "onItemClick: "+newIntent.getIntExtra("position",8)+GuokeList.get(position).getResult().get(0).getLink()
+
+                );
+                /*
+                * Parcelable encountered IOException writing serializable object
+                *抛出这个异常是因为传递的对象里面的对象也要实现Serializable接口
+                * */
+                startActivity(newIntent);
             }
         });
         mGuokeRecyclerAdapter.setOnItemLongClickListener(new GuokeRecyclerAdapter.OnItemLongClickListener() {
@@ -124,7 +139,7 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
     }
 
     public void freshUI(){
-        guokeRefresh.endLoadingMore();
+//        guokeRefresh.endLoadingMore();
         guokeRefresh.endRefreshing();
     }
 
@@ -138,11 +153,16 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (GuokeList != null)
+//                            清除原数据重新获取刷新的数据，不清除每刷新会add重复数据
+                        GuokeList.clear();
                         GuokeList = LoadNetUtil.GetJsonData(response);
                         mGuokeRecyclerAdapter.setGuoKelist(GuokeList);
                         mGuokeRecyclerAdapter.notifyDataSetChanged();
                         freshUI();
-                    }
+                        }
+
+
                 });
             }
 
