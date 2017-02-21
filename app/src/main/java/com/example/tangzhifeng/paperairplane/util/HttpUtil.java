@@ -4,15 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static android.content.ContentValues.TAG;
+import okhttp3.Request;
 
 /**
  * 作者: tangzhifeng on 2017/2/16.
@@ -29,33 +29,20 @@ public class HttpUtil {
 
     public static final String API_KEY = "0d2f5fb2161c371b6c78f46caa60604c";
 
+
+    //这个已经借助OKHttp3.0实现HttpRequest
     public static void sendHttpRequest(final String address, final IHttpCallbackListenet httpCallbackListenet) {
-        new Thread(new Runnable() {
+        MyOkHttpClient.getInstance().asyncGet(address, new MyOkHttpClient.HttpCallBack() {
             @Override
-            public void run() {
-                HttpURLConnection urlConnection = null;
-                try {
-                    URL url = new URL(address);
-                    Log.i(TAG, "run: "+url);
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    InputStream inputStream = urlConnection.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuffer response = new StringBuffer();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    Log.i(TAG, "run: "+response.toString());
-                    httpCallbackListenet.onFinish(response.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.i(TAG, "run: " + address);
-                    httpCallbackListenet.onError(e);
-                } finally {
-                    urlConnection.disconnect();
-                }
+            public void onError(Request request, IOException e) {
+                httpCallbackListenet.onError(e);
             }
-        }).start();
+
+            @Override
+            public void onSuccess(Request request, String result) {
+                httpCallbackListenet.onFinish(result);
+            }
+        });
     }
 
     public static void sendArgRequest(String httpUrl, final String httpArg, final IHttpCallbackListenet callbackListenet) {

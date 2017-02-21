@@ -11,12 +11,16 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.util.Api;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
+import com.example.tangzhifeng.paperairplane.util.MyOkHttpClient;
 import com.example.tangzhifeng.paperairplane.util.ZhihuUtil;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * 作者: tangzhifeng on 2017/2/15.
@@ -45,13 +49,19 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
 
     @Override
     public void isZhihuListUpdate(final ZhiHuList zhiHuList, final CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
-        HttpUtil.sendHttpRequest(Api.LATEST_NEWS, new HttpUtil.IHttpCallbackListenet() {
+
+        MyOkHttpClient.getInstance().asyncGet(Api.LATEST_NEWS, new MyOkHttpClient.HttpCallBack() {
             @Override
-            public void onFinish(String response) {
+            public void onError(Request request, IOException e) {
+                checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
+            }
+
+            @Override
+            public void onSuccess(Request request, String result) {
                 boolean checkUpadate = false;
                 ZhiHuListNews zhiHuListNews = new ZhiHuListNews();
                 Gson gson = new Gson();
-                zhiHuListNews = gson.fromJson(response, ZhiHuListNews.class);
+                zhiHuListNews = gson.fromJson(result, ZhiHuListNews.class);
 
                 zhiHuList.setDate(ZhihuUtil.getCurrentDate());
                 //如果zhiHuList为空,则直接导入数据
@@ -68,18 +78,14 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
                         checkUpadate = true;
                         zhiHuList.setStories(zhiHuListNews.getStories());
                         checkZhihuListUpdateCallBack.onZHihuListUpdate(zhiHuList);
-                        return ;
+                        return;
                     }
                 }
 
                 checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
             }
-
-            @Override
-            public void onError(Exception e) {
-                checkZhihuListUpdateCallBack.onZhihuListNotUpdate();
-            }
         });
+
     }
 
     @Override

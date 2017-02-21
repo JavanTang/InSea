@@ -55,35 +55,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
         });
 
         if (HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mZhihuDateRepository.isZhihuListUpdate(new ZhiHuList(), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
-                @Override
-                public void onZHihuListUpdate(final ZhiHuList zhiHuList) {
-                    List<ZhiHuList> zhiHuLists = new ArrayList<ZhiHuList>();
-                    zhiHuLists.add(zhiHuList);
-                    mView.showZhiHuList(zhiHuLists);
-
-
-                    for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
-                        mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
-                            @Override
-                            public void onZhiHuLoaded(ZhiHu zhiHu) {
-                                zhiHu.setDate(zhiHuList.getDate());
-                                mZhihuDateRepository.saveZhihu(zhiHu);
-                            }
-
-                            @Override
-                            public void onZhiHuObtainFailure() {
-                            }
-                        });
-
-                    }
-                }
-
-                @Override
-                public void onZhihuListNotUpdate() {
-
-                }
-            });
+            mView.showDropDownRefresh();
         }
     }
 
