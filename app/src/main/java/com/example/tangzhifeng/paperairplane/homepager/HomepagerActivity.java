@@ -1,6 +1,7 @@
 package com.example.tangzhifeng.paperairplane.homepager;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,9 +11,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.tangzhifeng.paperairplane.R;
+import com.example.tangzhifeng.paperairplane.about.AboutActivity;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemoteDataSource;
@@ -64,7 +68,18 @@ public class HomepagerActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.main_about:
+                        Intent intent=new Intent(HomepagerActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
         setupViewPager(mViewpager);
 
         mTabs.setupWithViewPager(mViewpager);
@@ -99,6 +114,13 @@ public class HomepagerActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_drawer,menu);
+        return true;
+    }
+
 
 
     public void setupViewPager(ViewPager upViewPager) {

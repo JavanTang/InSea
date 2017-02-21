@@ -22,6 +22,9 @@
         <activity android:name=".detailedpager.DetailedPagerActivity"/>
         <activity android:name=".detailedpager.guoke.GuokeDetailActivity">
         </activity>
+        <activity android:name=".about.AboutActivity">
+
+        </activity>
     </application>
 
 </manifest>

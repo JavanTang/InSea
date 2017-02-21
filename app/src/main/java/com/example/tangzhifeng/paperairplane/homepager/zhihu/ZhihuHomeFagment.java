@@ -34,8 +34,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 
 public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract.View, BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    @InjectView(R.id.zhihuList)
-    RecyclerView mZhihuList;
+
     ZhihuRecycleAdapter mZhihuRecycleAdapter;
     ZhiHuHomepagerContract.Presenter mPresenter;
     List<ZhiHuList> mZhiHuLists;
@@ -43,6 +42,9 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
     BGARefreshLayout mRefreshLayout;
     ZhiHuHomePresenter mRresenter;
     Bundle mBundle;
+    @InjectView(R.id.zhihuList)
+    RecyclerView mZhihuList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,20 +56,12 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        ArrayList list=new ArrayList();
-//        list.add(mZhiHuLists);
-//        outState.putParcelableArrayList("list",list);
     }
-
-
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        if(savedInstanceState!=null){
-//            mZhiHuLists= (List<ZhiHuList>) savedInstanceState.getParcelableArrayList("list").get(0);
-//        }
         init();
     }
 
@@ -182,7 +176,7 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-        mZhiHuLists=mZhihuRecycleAdapter.getZhiHuLists();
+        mZhiHuLists = mZhihuRecycleAdapter.getZhiHuLists();
         if (HttpUtil.isNetworkAvailable(getContext())) {
             mPresenter.pullToRefresh(mZhiHuLists, mZhihuRecycleAdapter);
             return true;
