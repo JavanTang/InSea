@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,21 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
+        <!--app:layout_scrollFlags="scroll|enterAlways"-->
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+
             >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
 
+                android:textSize="20sp"/>
         </android.support.v7.widget.Toolbar>
-
+        <!--app:tabMode="fixed"-->
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            app:tabMode="scrollable"
-            app:tabGravity="center"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -38,8 +42,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_height="match_parent">
 
     </android.support.v4.view.ViewPager>
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
