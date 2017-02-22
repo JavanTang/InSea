@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
-import android.view.animation.ScaleAnimation;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tangzhifeng.paperairplane.R;
@@ -20,11 +21,13 @@ public class GuokeDetailActivity extends AppCompatActivity {
 
     @InjectView(R.id.web_view)
     WebView webView;
-
     GuoKeDetailPresenter mGuokePresenter;
     GuoKeDetailPresenter.NoAdWebViewClient mNoadvWebViewClient;
     @InjectView(R.id.image_top)
     SimpleDraweeView imageTop;
+    @InjectView(R.id.ProgressBar_load)
+    ProgressBar ProgressBarLoad;
+    GuoKe mGuoKe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,19 @@ public class GuokeDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        LoadWebView();
+//        LoadWebView();
+        mGuokePresenter = new GuoKeDetailPresenter();
+        Intent intent = this.getIntent();
+        LoadDetail(intent);
 
+    }
+
+    private void LoadDetail(Intent intent) {
+        Bundle bundle = intent.getBundleExtra("bundle");
+        mGuoKe = (GuoKe) bundle.getSerializable("guoke");
+        mGuokePresenter.LoadWeb(
+            mGuokePresenter.GetWebUrl(mGuoKe),webView,ProgressBarLoad);
+        imageTop.setImageURI(mGuokePresenter.GetDetailTopIcon(mGuoKe));
     }
 
     private void LoadWebView() {
@@ -57,11 +71,27 @@ public class GuokeDetailActivity extends AppCompatActivity {
                 else {
                     imageTop.setImageURI(DetailTopImageUrl);
                     webView.loadUrl(DetailUrl);
-                    webView.setAnimation(new ScaleAnimation(1, 0, 1, 0));
                     webView.getSettings().setJavaScriptEnabled(true);
                     webView.setWebViewClient(mNoadvWebViewClient);
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO 自动生成的方法存根
+        if(keyCode==KeyEvent.KEYCODE_BACK) {
+            if(webView.canGoBack()) {           //当webview不是处于第一页面时，返回上一个页面
+                webView.goBack();
+                return true;
+            }
+            else {                              //当webview处于第一页面时,直接退出程序
+//                System.exit(0);
+            }
+
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

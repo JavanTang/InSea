@@ -59,6 +59,7 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
                 String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
                 String Zhihu_date = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
 
+
                 ZhiHuList.StoriesBean storiesBean=new ZhiHuList.StoriesBean();
                 storiesBean.setTitle(Zhihu_title);
                 storiesBean.setId(Integer.valueOf(ZHihu_id));
@@ -67,7 +68,6 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
                 imgs.add(Zhihu_img);
                 storiesBean.setImages(imgs);
                 storiesBeanList.add(storiesBean);
-
                 zhiHuList.setDate(Zhihu_date);
             }
         }

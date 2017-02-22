@@ -1,15 +1,14 @@
 package com.example.tangzhifeng.paperairplane.detailedpager.guoke;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.animation.ScaleAnimation;
-import android.webkit.WebResourceRequest;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
@@ -18,31 +17,31 @@ import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
  * Created by Administrator on 2017/2/20.
  */
 
-public class GuoKeDetailPresenter implements GuokeDetailContract.View{
+public class GuoKeDetailPresenter implements GuokeDetailContract.View {
     @Override
-    public void LoadWeb(Intent guoKeIntent,  WebView webView) {
-       Bundle bundle = guoKeIntent.getBundleExtra("bundle");
-        GuoKe guoKe = (GuoKe) bundle.getSerializable("guoke");
-        final WebView web = webView;
-        final String DetailUrl = guoKe.getResult().get(0).getLink();
+    public void LoadWeb(String DetailUrl,WebView webView,ProgressBar mProgressBar) {
         if (DetailUrl == null)
-            Log.i("wkl", "LoadWeb: "+"详情页Url为空");
-        else
-        {
-
-                    web.loadUrl(DetailUrl);
-                    web.setAnimation(new ScaleAnimation(0,1,0,1));
-                    web.getSettings().setJavaScriptEnabled(true);
-                    web.setWebViewClient(new WebViewClient(){
-                        @Override
-                        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                            web.loadUrl(DetailUrl);
-                            return true;
-                        }
-                    });
-                }
-
+            Log.i("wkl", "LoadWeb: " + "详情页Url为空");
+        else {
+            webView.loadUrl(DetailUrl);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebChromeClient(new GuoKeDetailPresenter.MyWebChromeClient(mProgressBar));
     }
+    }
+
+
+    @Override
+    public String GetWebUrl(GuoKe guoKe) {
+        String DetailUrl = guoKe.getResult().get(0).getLink();
+        return DetailUrl;
+    }
+
+    @Override
+    public String GetDetailTopIcon(GuoKe guoKe) {
+        String DetailTopImageUrl = guoKe.getResult().get(0).getHeadline_img();
+        return DetailTopImageUrl;
+    }
+
     public static class NoAdWebViewClient extends WebViewClient {
         private  String homeurl;
         private Context context;
@@ -77,6 +76,23 @@ public class GuoKeDetailPresenter implements GuokeDetailContract.View{
                     }
                 }
                 return false;
+            }
+        }
+    }
+  public static class MyWebChromeClient extends WebChromeClient{
+        ProgressBar mProgressBar;
+       public MyWebChromeClient(ProgressBar mProgressBar){
+           this.mProgressBar= mProgressBar;
+       }
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (newProgress == 100){
+                mProgressBar.setVisibility(View.GONE);
+            }
+            else
+            {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(newProgress);
             }
         }
     }

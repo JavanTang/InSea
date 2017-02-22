@@ -1,7 +1,9 @@
 package com.example.tangzhifeng.paperairplane.detailedpager.guoke;
 
-import android.content.Intent;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
+
+import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
 
 /**
  * Created by Administrator on 2017/2/20.
@@ -10,6 +12,9 @@ import android.webkit.WebView;
 
     public interface GuokeDetailContract {
         interface View{
-            void LoadWeb(Intent guoKeIntent, WebView webView);
+            void LoadWeb( String DetailUrl,WebView webView,ProgressBar mProgressBar);
+            String GetWebUrl(GuoKe guoKe);
+            String GetDetailTopIcon(GuoKe guoKe);
         }
+
     }
