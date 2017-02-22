@@ -7,6 +7,8 @@
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
 
+    <color name="colorNormal">#1e1e1e</color>
+    <color name="colorPressed">#171818</color>
 
 
 

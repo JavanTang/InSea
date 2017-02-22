@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:Float="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coord"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/floatingActionButton"
+        android:src="@drawable/back"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        Float:rippleColor="#049b9a97"
+        Float:borderWidth="0dp"
+        Float:elevation="5dp"
+        Float:pressedTranslationZ="16dp"
+        Float:layout_behavior="com.example.tangzhifeng.paperairplane.detailedpager.guoke.GuokeDetailScrollFloat"
+        />
+    <ScrollView
+    android:id="@+id/scrollView_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <LinearLayout
@@ -14,41 +38,27 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <RelativeLayout
-            android:id="@+id/hide_RelativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            >
-            <ImageView
-                android:id="@+id/back_id"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:src="@drawable/back"
-                />
-            <ImageView
-                android:id="@+id/share_id"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:src="@drawable/share"
-                />
-        </RelativeLayout>
-
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@color/colorNormal"
+            />
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/image_top"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/ProgressBar_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        />
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></WebView>
-
-
 </LinearLayout>
 </ScrollView>
+</android.support.design.widget.CoordinatorLayout>
