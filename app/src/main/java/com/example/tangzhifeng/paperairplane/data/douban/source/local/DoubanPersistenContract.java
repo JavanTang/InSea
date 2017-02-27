@@ -40,7 +40,7 @@ public class DoubanPersistenContract {
         public static final String DOUBAN_AUTHOR_AVATAR = "douban_author_avatar";
         /**
          * 这篇文章的创建时间
-         */
+        */
         public static final String DOUBAN_CREATED_TIME = "douban_create_time";
         /**
          * 豆瓣评论数

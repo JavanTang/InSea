@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#faf9f9"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<cn.bingoogolapple.refreshlayout.BGARefreshLayout
+
+    android:id="@+id/douban_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycle_douban"
+        >
+    </android.support.v7.widget.RecyclerView>
+
+</cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
+    <ImageView
+        android:id="@+id/unhappy_img"
+        android:layout_centerInParent="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/connect_net_error"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/connect_error_hint"
+        android:layout_below="@+id/unhappy_img"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="客官,知己正在疯狂加载中"
+        android:visibility="gone"
+        />
+</RelativeLayout>
