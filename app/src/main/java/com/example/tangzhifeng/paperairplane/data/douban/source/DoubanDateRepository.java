@@ -3,9 +3,12 @@ package com.example.tangzhifeng.paperairplane.data.douban.source;
 import android.content.Context;
 
 import com.example.tangzhifeng.paperairplane.MyApplication;
+import com.example.tangzhifeng.paperairplane.data.douban.Douban;
 import com.example.tangzhifeng.paperairplane.data.douban.source.local.DoubanLocalDateSource;
 import com.example.tangzhifeng.paperairplane.data.douban.source.remote.DoubanRemoteDateSource;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
+
+import java.util.List;
 
 /**
  * 作者: tangzhifeng on 2017/2/27.
@@ -23,11 +26,11 @@ public class DoubanDateRepository implements DoubanDateSource {
     }
 
     @Override
-    public void getDouban(String uri, DoubanCallback loadDoubanCallback) {
+    public void getDouban(String uri, DoubanHtmlCallback loadDoubanHtmlCallback) {
         if (HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mRemote.getDouban(uri, loadDoubanCallback);
+            mRemote.getDouban(uri, loadDoubanHtmlCallback);
         } else {
-            mLocal.getDouban(uri, loadDoubanCallback);
+            mLocal.getDouban(uri, loadDoubanHtmlCallback);
         }
     }
 
@@ -47,5 +50,15 @@ public class DoubanDateRepository implements DoubanDateSource {
         } else {
             mLocal.getDoubanList(remoteDoubanListCallback);
         }
+    }
+
+    @Override
+    public void saveDouban(Douban douban) {
+        mLocal.saveDouban(douban);
+    }
+
+    @Override
+    public void saveDouban(List<Douban> doubanList) {
+        mLocal.saveDouban(doubanList);
     }
 }

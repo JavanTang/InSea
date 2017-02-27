@@ -56,5 +56,7 @@ public class DoubanPersistenContract {
          */
         public static final String DOUBAN_TITLE = "douban_title";
 
+        public static final String DOUBAN_URI="douban_uri";
+
     }
 }

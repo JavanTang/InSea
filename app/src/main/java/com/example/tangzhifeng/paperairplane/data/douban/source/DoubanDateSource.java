@@ -25,7 +25,7 @@ public interface DoubanDateSource {
     /**
      * 获取Douban回调接口
      */
-    interface DoubanCallback {
+    interface DoubanHtmlCallback {
         void onFailure();
 
         void onSuccess(String html);
@@ -36,9 +36,9 @@ public interface DoubanDateSource {
      * 返回Douban的数据
      *
      * @param id                 豆瓣的id
-     * @param loadDoubanCallback
+     * @param loadDoubanHtmlCallback
      */
-    void getDouban(String id, DoubanCallback loadDoubanCallback);
+    void getDouban(String id, DoubanHtmlCallback loadDoubanHtmlCallback);
 
 
     /**
@@ -57,5 +57,7 @@ public interface DoubanDateSource {
      */
     void getDoubanList(String date, DoubanListCallback remoteDoubanListCallback);
 
+    void saveDouban(Douban douban);
 
+    void saveDouban(List<Douban> doubanList);
 }

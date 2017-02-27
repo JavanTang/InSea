@@ -35,16 +35,17 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
             + ")";
 
     public static final String DOUBAN_CREATE = "create table " + DoubanPersistenContract.DoubanEntry.TABLE_NAME + "("
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_ID + TEXT_TYPE + " primary key " + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_ID + BOOLEAN_TYPE + " primary key " + COMMA
             + DoubanPersistenContract.DoubanEntry.DOUBAN_TITLE + TEXT_TYPE + COMMA
             + DoubanPersistenContract.DoubanEntry.DOUBAN_DATE + TEXT_TYPE + COMMA
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_AUTHOR_AVATAR + COMMA
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_AUTHOR_NAME + COMMA
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_COMMENTS_COUNT + COMMA
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_LIKE_COUNT + COMMA
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_ICON + COMMA
-            + DoubanPersistenContract.DoubanEntry.DOUBAN_HTML + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_AUTHOR_AVATAR + TEXT_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_AUTHOR_NAME + TEXT_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_COMMENTS_COUNT + BOOLEAN_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_LIKE_COUNT + BOOLEAN_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_ICON + TEXT_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_HTML + TEXT_TYPE + COMMA
             + DoubanPersistenContract.DoubanEntry.DOUBAN_CREATED_TIME + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_URI + TEXT_TYPE
             + ")";
 
     public InSeaDbHelper(Context context) {

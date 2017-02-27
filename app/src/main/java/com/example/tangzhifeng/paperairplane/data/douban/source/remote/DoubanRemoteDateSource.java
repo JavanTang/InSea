@@ -4,6 +4,7 @@ import com.example.tangzhifeng.paperairplane.data.douban.Douban;
 import com.example.tangzhifeng.paperairplane.data.douban.DoubanOpenDaily;
 import com.example.tangzhifeng.paperairplane.data.douban.source.DoubanDateSource;
 import com.example.tangzhifeng.paperairplane.util.Api;
+import com.example.tangzhifeng.paperairplane.util.DoubanUtil;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 import com.google.gson.Gson;
 
@@ -32,24 +33,24 @@ public class DoubanRemoteDateSource implements DoubanDateSource {
 
 
     @Override
-    public void getDouban(String uri, final DoubanCallback remoteDoubanCallback) {
+    public void getDouban(String uri, final DoubanHtmlCallback remoteDoubanHtmlCallback) {
         HttpUtil.sendHttpRequest(uri, new HttpUtil.IHttpCallbackListenet() {
             @Override
             public void onFinish(String response) {
-                remoteDoubanCallback.onSuccess(response);
+                remoteDoubanHtmlCallback.onSuccess(response);
             }
 
             @Override
             public void onError(Exception e) {
                 e.printStackTrace();
-                remoteDoubanCallback.onFailure();
+                remoteDoubanHtmlCallback.onFailure();
             }
         });
     }
 
     @Override
     public void getDoubanList(DoubanListCallback loadDoubanListCallback) {
-
+        getDoubanList(DoubanUtil.getCurrentDate(),loadDoubanListCallback);
     }
 
     String htmlTmp;
@@ -74,10 +75,10 @@ public class DoubanRemoteDateSource implements DoubanDateSource {
                     douban.setDouban_like_count(postsBean.getLike_count());
                     douban.setDouban_title(postsBean.getTitle());
                     douban.setDouban_uri(postsBean.getOriginal_url());
-                    getDouban(douban.getDouban_uri(), new DoubanCallback() {
+                    getDouban(douban.getDouban_uri(), new DoubanHtmlCallback() {
                         @Override
                         public void onFailure() {
-
+                            htmlTmp="";
                         }
 
                         @Override
@@ -97,5 +98,15 @@ public class DoubanRemoteDateSource implements DoubanDateSource {
                 remoteDoubanListCallback.onFailure();
             }
         });
+    }
+
+    @Override
+    public void saveDouban(Douban douban) {
+
+    }
+
+    @Override
+    public void saveDouban(List<Douban> doubanList) {
+
     }
 }
