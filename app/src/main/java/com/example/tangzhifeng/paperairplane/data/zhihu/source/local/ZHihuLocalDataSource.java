@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
+import com.example.tangzhifeng.paperairplane.data.InSeaDbHelper;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;

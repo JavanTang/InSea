@@ -1,9 +1,12 @@
-package com.example.tangzhifeng.paperairplane.data.zhihu.source.local;
+package com.example.tangzhifeng.paperairplane.data;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.tangzhifeng.paperairplane.data.douban.source.local.DoubanPersistenContract;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZhihuPersistencContract;
 
 /**
  * 作者: tangzhifeng on 2017/2/17.
@@ -20,7 +23,7 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     private static final String BOOLEAN_TYPE = " INTEGER";
     private static final String COMMA = ",";
     //数据库版本号
-    public static final int INSEA_DB_VERSION = 2;
+    public static final int INSEA_DB_VERSION = 3;
     //创建知乎表
     public static final String ZHIHU_CREATER = "create table " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + "("
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID + TEXT_TYPE + " primary key" + COMMA
@@ -29,6 +32,19 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG + TEXT_TYPE + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG + TEXT_TYPE + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE + TEXT_TYPE
+            + ")";
+
+    public static final String DOUBAN_CREATE = "create table " + DoubanPersistenContract.DoubanEntry.TABLE_NAME + "("
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_ID + TEXT_TYPE + " primary key " + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_TITLE + TEXT_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_DATE + TEXT_TYPE + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_AUTHOR_AVATAR + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_AUTHOR_NAME + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_COMMENTS_COUNT + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_LIKE_COUNT + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_ICON + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_HTML + COMMA
+            + DoubanPersistenContract.DoubanEntry.DOUBAN_CREATED_TIME + COMMA
             + ")";
 
     public InSeaDbHelper(Context context) {
@@ -48,6 +64,7 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ZHIHU_CREATER);
+        db.execSQL(DOUBAN_CREATE);
     }
 
     //放置更新表的语句
@@ -55,8 +72,11 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         switch (newVersion) {
             case 1:
-                db.execSQL("ALTER TABLE "+ ZhihuPersistencContract.ZhihuEntry.TABLE_NAME+" ADD COLUMN "+ ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE);
+                db.execSQL("ALTER TABLE " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + " ADD COLUMN " + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE);
             case 2:
+                db.execSQL(DOUBAN_CREATE);
+            case 3:
+
         }
     }
 }

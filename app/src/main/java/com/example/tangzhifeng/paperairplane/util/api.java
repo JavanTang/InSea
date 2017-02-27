@@ -16,7 +16,10 @@ public class Api {
     //The detailed content
     //详细内容
     public static final String DETAILED_CONTENT="http://news-at.zhihu.com/api/4/news/";
-
-
+    /**
+     * 根据日期查询文章
+     * https://moment.douban.com/api/stream/date/2015-09-24
+     */
+    public static String GetContentByDate = "https://moment.douban.com/api/stream/date/";
 
 }
