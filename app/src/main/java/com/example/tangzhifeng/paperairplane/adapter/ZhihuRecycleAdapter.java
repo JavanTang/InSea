@@ -23,7 +23,6 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
     List<ZhiHuList> mZhiHuLists;
     LayoutInflater mInflater;
     Context mContext;
-
     public void setZhiHuLists(List<ZhiHuList> zhiHuLists) {
         mZhiHuLists = zhiHuLists;
     }

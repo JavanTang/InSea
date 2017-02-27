@@ -1,5 +1,6 @@
 package com.example.tangzhifeng.paperairplane.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
+import com.example.tangzhifeng.paperairplane.data.guoke.sql.GuokeSQLDataHandle;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -18,7 +20,9 @@ import java.util.List;
 
 public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
     List<GuoKe> GuoKelist;
-    public GuokeRecyclerAdapter(List<GuoKe> GuokeList){
+    GuokeSQLDataHandle sqlDataHandle;
+    public GuokeRecyclerAdapter(List<GuoKe> GuokeList, Context context){
+        sqlDataHandle = new GuokeSQLDataHandle(context);
         this.GuoKelist = GuokeList;
     }
 
@@ -98,7 +102,17 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
             });
         }
 
-//        viewHolder.imageLineIcon.setImageResource(R.mipmap.ic_launcher);
+        sqlDataHandle.addSQLiteData(GuoKelist.get(position));
+       boolean flag = true;
+        if (flag&&GuoKelist.size()== 24)
+        {
+            sqlDataHandle.selectData(GuoKelist.get(position));
+            GuoKelist.clear();
+            GuoKelist = sqlDataHandle.getSQLiteGuoList();
+            this.notifyDataSetChanged();
+            flag = false;
+        }
+
         String ItemIconUrl = GuoKelist.get(position).getResult().get(0).getHeadline_img();
         String HeadIconUrl = GuoKelist.get(position).getResult().get(0).getImage();
 

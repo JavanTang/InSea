@@ -8,8 +8,26 @@
     android:layout_height="match_parent"
 
     >
-
-
+    <View
+        android:id="@+id/share_top_img"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:transitionName="share_img"
+        />
+    <android.support.design.widget.FloatingActionButton
+    android:id="@+id/share_id"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="10dp"
+    android:src="@drawable/share"
+    android:layout_marginLeft="300dp"
+    Float:borderWidth="0dp"
+    Float:rippleColor="#049b9a97"
+    Float:elevation="0.1dp"
+    Float:pressedTranslationZ="16dp"
+    android:backgroundTint="?android:attr/colorControlNormal"
+    Float:layout_behavior="com.example.tangzhifeng.paperairplane.detailedpager.guoke.GuokeDetailScrollFloat"
+    />
     <android.support.design.widget.FloatingActionButton
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -17,48 +35,42 @@
         android:src="@drawable/back"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
-        android:visibility="visible"
-        Float:rippleColor="#049b9a97"
         Float:borderWidth="0dp"
-        Float:elevation="5dp"
+        Float:rippleColor="#049b9a97"
+        Float:elevation="0.1dp"
         Float:pressedTranslationZ="16dp"
+        android:backgroundTint="?android:attr/colorControlNormal"
         Float:layout_behavior="com.example.tangzhifeng.paperairplane.detailedpager.guoke.GuokeDetailScrollFloat"
         />
+
     <ScrollView
     android:id="@+id/scrollView_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <LinearLayout
-
     android:id="@+id/activity_guoke_datail"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tangzhifeng.paperairplane.detailedpager.guoke.GuokeDetailActivity">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@color/colorNormal"
-            />
+
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/image_top"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
-    </RelativeLayout>
-    <ProgressBar
-        android:id="@+id/ProgressBar_load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        />
+        <ProgressBar
+            android:id="@+id/ProgressBar_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            />
+
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></WebView>
 </LinearLayout>
 </ScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

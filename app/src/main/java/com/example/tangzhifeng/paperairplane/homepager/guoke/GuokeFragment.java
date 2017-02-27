@@ -92,11 +92,14 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
 //        GuokeList = mAsyncTask.GuokeList1;
 //        Log.i("TAG", "initView: " + GuokeList.size());
         GuokeList=new ArrayList<>();
-        mGuokeRecyclerAdapter = new GuokeRecyclerAdapter(GuokeList);
+
+        mGuokeRecyclerAdapter = new GuokeRecyclerAdapter(GuokeList,getActivity());
+
         LinearLayoutManager LinearLayoutForRecy =
             new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
 
+//        recycleId.setRecycledViewPool(new GuokeRecycledViewPool());
         recycleId.setLayoutManager(LinearLayoutForRecy);
         recycleId.addItemDecoration(
             new RecycleItemDecoration(getActivity(),
@@ -118,7 +121,12 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
                 * Parcelable encountered IOException writing serializable object
                 *抛出这个异常是因为传递的对象里面的对象也要实现Serializable接口
                 * */
+//                SimpleDraweeView draweeView = (SimpleDraweeView) view.findViewById(R.id.img_item_guoke);
+//                ActivityOptionsCompat options = ActivityOptionsCompat
+//                    .makeSceneTransitionAnimation(getActivity(), draweeView, "share");
+//                getFragmentManager().beginTransaction().addSharedElement(draweeView,"share");
                 startActivity(newIntent);
+//                startActivity(newIntent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),draweeView,"share").toBundle());
             }
         });
         mGuokeRecyclerAdapter.setOnItemLongClickListener(new GuokeRecyclerAdapter.OnItemLongClickListener() {

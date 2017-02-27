@@ -14,6 +14,7 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_item_guoke"
+            android:transitionName="share_img"
             android:paddingLeft="5dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="160dp"

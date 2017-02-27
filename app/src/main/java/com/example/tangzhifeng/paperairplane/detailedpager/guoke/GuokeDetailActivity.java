@@ -3,12 +3,10 @@ package com.example.tangzhifeng.paperairplane.detailedpager.guoke;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.data.guoke.GuoKe;
@@ -32,7 +30,10 @@ public class GuokeDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        Transition transition = getWindow().getSharedElementEnterTransition();
+//        getWindow().setEnterTransition(transition);
+//        getWindow().setExitTransition(new Slide());
         setContentView(R.layout.activity_guoke_datail);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.inject(this);
@@ -55,28 +56,28 @@ public class GuokeDetailActivity extends AppCompatActivity {
         imageTop.setImageURI(mGuokePresenter.GetDetailTopIcon(mGuoKe));
     }
 
-    private void LoadWebView() {
-        final Intent intent = this.getIntent();
-        final Bundle bundle = intent.getBundleExtra("bundle");
-        final GuoKe guoKe = (GuoKe) bundle.getSerializable("guoke");
-        final String DetailUrl = guoKe.getResult().get(0).getLink();
-        final String DetailTopImageUrl = guoKe.getResult().get(0).getHeadline_img();
-        mNoadvWebViewClient = new GuoKeDetailPresenter.NoAdWebViewClient(this, DetailUrl);
-        Log.i("wkl", "initView: " + guoKe.getResult().get(0).getLink() + intent.getIntExtra("position", 34343));
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (DetailUrl == null)
-                    Toast.makeText(GuokeDetailActivity.this, "详情页Url为空", Toast.LENGTH_SHORT).show();
-                else {
-                    imageTop.setImageURI(DetailTopImageUrl);
-                    webView.loadUrl(DetailUrl);
-                    webView.getSettings().setJavaScriptEnabled(true);
-                    webView.setWebViewClient(mNoadvWebViewClient);
-                }
-            }
-        });
-    }
+//    private void LoadWebView() {
+//        final Intent intent = this.getIntent();
+//        final Bundle bundle = intent.getBundleExtra("bundle");
+//        final GuoKe guoKe = (GuoKe) bundle.getSerializable("guoke");
+//        final String DetailUrl = guoKe.getResult().get(0).getLink();
+//        final String DetailTopImageUrl = guoKe.getResult().get(0).getHeadline_img();
+//        mNoadvWebViewClient = new GuoKeDetailPresenter.NoAdWebViewClient(this, DetailUrl);
+//        Log.i("wkl", "initView: " + guoKe.getResult().get(0).getLink() + intent.getIntExtra("position", 34343));
+//        this.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (DetailUrl == null)
+//                    Toast.makeText(GuokeDetailActivity.this, "详情页Url为空", Toast.LENGTH_SHORT).show();
+//                else {
+//                    imageTop.setImageURI(DetailTopImageUrl);
+//                    webView.loadUrl(DetailUrl);
+//                    webView.getSettings().setJavaScriptEnabled(true);
+//                    webView.setWebViewClient(mNoadvWebViewClient);
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
