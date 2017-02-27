@@ -102,16 +102,16 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
             });
         }
 
-        sqlDataHandle.addSQLiteData(GuoKelist.get(position));
-       boolean flag = true;
-        if (flag&&GuoKelist.size()== 24)
-        {
-            sqlDataHandle.selectData(GuoKelist.get(position));
-            GuoKelist.clear();
-            GuoKelist = sqlDataHandle.getSQLiteGuoList();
-            this.notifyDataSetChanged();
-            flag = false;
-        }
+//        sqlDataHandle.addSQLiteData(GuoKelist.get(position));
+//       boolean flag = true;
+//        if (flag&&GuoKelist.size()== 25)
+//        {
+//            sqlDataHandle.selectData(GuoKelist.get(position));
+//            GuoKelist.clear();
+//            GuoKelist = sqlDataHandle.getSQLiteGuoList();
+//            this.notifyDataSetChanged();
+//            flag = false;
+//        }
 
         String ItemIconUrl = GuoKelist.get(position).getResult().get(0).getHeadline_img();
         String HeadIconUrl = GuoKelist.get(position).getResult().get(0).getImage();
@@ -124,6 +124,11 @@ public class  GuokeRecyclerAdapter extends RecyclerView.Adapter {
         viewHolder.tvlikingCount.setText(GuoKelist.get(position).getResult().get(0).getLikings_count()+"");
         viewHolder.tvCommemtCount.setText(GuoKelist.get(position).getResult().get(0).getReplies_count());
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     @Override
