@@ -74,7 +74,7 @@ public class DoubanRecycleAdapter extends RecyclerView.Adapter<DoubanRecycleHold
             }
 
         String AuthorImgUrl = DoubanList.get(position).getDouban_author_avatar();
-        String ItemImgUrl = DoubanList.get(position).getDouban_author_name();
+        String ItemImgUrl = DoubanList.get(position).getDouban_icon();
 
         holder.Author_img.setImageURI(AuthorImgUrl);
         holder.Item_img.setImageURI(ItemImgUrl);

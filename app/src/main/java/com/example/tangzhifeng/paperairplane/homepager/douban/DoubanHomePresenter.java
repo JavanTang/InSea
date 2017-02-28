@@ -21,11 +21,13 @@ public class DoubanHomePresenter implements DoubanHomeContract.Presenter {
     public DoubanHomePresenter(DoubanHomeContract.View view, DoubanDateSource dateSource) {
         mView = view;
         mDateSource = dateSource;
+        mView.setPresenter(this);
     }
 
     public DoubanHomePresenter(DoubanHomeContract.View view, Context context) {
         mView = view;
         mDateSource = new DoubanDateRepository(context);
+        mView.setPresenter(this);
     }
 
 

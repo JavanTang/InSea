@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,6 +44,37 @@ public class HttpUtil {
                 httpCallbackListenet.onFinish(result);
             }
         });
+    }
+
+
+    public static void sendOldHttpRequest(final String address, final IHttpCallbackListenet httpCallbackListenet) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection urlConnection = null;
+                try {
+                    Log.i("tzf", "run: "+address);
+                    URL url = new URL(address);
+
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream inputStream = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuffer response = new StringBuffer();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+
+                    httpCallbackListenet.onFinish(response.toString());
+                } catch (Exception e) {
+                    httpCallbackListenet.onError(e);
+                } finally {
+                    if (urlConnection!=null){
+                        urlConnection.disconnect();
+                    }
+                }
+            }
+        }).start();
     }
 
     public static void sendArgRequest(String httpUrl, final String httpArg, final IHttpCallbackListenet callbackListenet) {

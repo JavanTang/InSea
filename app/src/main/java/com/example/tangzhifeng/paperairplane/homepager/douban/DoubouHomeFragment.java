@@ -33,9 +33,8 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     DoubanHomeContract.Presenter mPresenter;
 
-    RecyclerView DoubanRecycle;
     @InjectView(R.id.recycle_douban)
-    RecyclerView recycleDouban;
+    RecyclerView DoubanRecycle;
     @InjectView(R.id.douban_refresh)
     BGARefreshLayout doubanRefresh;
     DoubanRecycleAdapter DoubanAdapter;
@@ -55,10 +54,9 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.doubanfragment, container, false);
-
-        initViews(view);
-
         ButterKnife.inject(this, view);
+        initViews(view);
+        mPresenter.start();
         return view;
     }
 
@@ -76,8 +74,14 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
     }
 
     @Override
-    public void updateAdapter(List<Douban> doubanList) {
-
+    public void updateAdapter(final List<Douban> doubanList) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DoubanAdapter.setDoubanList(doubanList);
+                DoubanAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
 
