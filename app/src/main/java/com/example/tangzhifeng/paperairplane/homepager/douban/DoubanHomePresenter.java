@@ -41,11 +41,12 @@ public class DoubanHomePresenter implements DoubanHomeContract.Presenter {
 
             @Override
             public void onSuccess(List<Douban> doubanOpenDailies) {
-                if (doubanList.get(0).getDouban_id() != doubanList.get(0).getDouban_id()) {
+                if (doubanList.get(0).getDouban_id() != doubanOpenDailies.get(0).getDouban_id()) {
                     mView.updateAdapter(doubanOpenDailies);
                 }
             }
         });
+        mView.stopRefreshView();
     }
 
     @Override

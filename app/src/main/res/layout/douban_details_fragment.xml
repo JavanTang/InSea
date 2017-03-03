@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+<LinearLayout
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
+    <RelativeLayout
+        android:background="#5f8343"
+        android:layout_width="match_parent"
+        android:layout_height="245dp">
+
+        <TextView
+            android:id="@+id/douban_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="15dp"
+            android:maxLines="2"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textColor="#e6c5c5"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/douban_detail_img"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/douban_detail_img"
+            android:layout_width="205dp"
+            android:layout_height="206dp"
+            fresco:roundedCornerRadius="30dp"
+            fresco:roundTopLeft="true"
+            fresco:roundTopRight="true"
+            fresco:roundBottomLeft="true"
+            fresco:roundBottomRight="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/douban_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b96767"
+        />
+    <ProgressBar
+        android:id="@+id/douban_ProgressBar_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        />
 </LinearLayout>
+</ScrollView>

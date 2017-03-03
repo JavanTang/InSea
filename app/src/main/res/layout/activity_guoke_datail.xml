@@ -20,7 +20,8 @@
     android:layout_height="45dp"
     android:layout_marginTop="10dp"
     android:src="@drawable/share"
-    android:layout_marginLeft="300dp"
+    android:layout_gravity="right|top"
+    android:layout_marginRight="30dp"
     Float:borderWidth="0dp"
     Float:rippleColor="#049b9a97"
     Float:elevation="0.1dp"
@@ -31,7 +32,8 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/floatingActionButton_back"
+        android:layout_gravity="left|top"
         android:src="@drawable/back"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
@@ -58,18 +60,18 @@
         android:id="@+id/image_top"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
-        <ProgressBar
-            android:id="@+id/ProgressBar_load"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            />
 
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></WebView>
+    <ProgressBar
+        android:id="@+id/ProgressBar_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        />
 </LinearLayout>
 </ScrollView>
 

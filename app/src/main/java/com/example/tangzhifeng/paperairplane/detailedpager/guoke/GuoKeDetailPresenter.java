@@ -2,6 +2,7 @@ package com.example.tangzhifeng.paperairplane.detailedpager.guoke;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -45,10 +46,17 @@ public class GuoKeDetailPresenter implements GuokeDetailContract.View {
     public static class NoAdWebViewClient extends WebViewClient {
         private  String homeurl;
         private Context context;
+        private ProgressBar progressBar;
 
-        public NoAdWebViewClient(Context context,String homeurl) {
+        public NoAdWebViewClient(Context context,String homeurl,ProgressBar progressBar) {
             this.context = context;
             this.homeurl = homeurl;
+            this.progressBar = progressBar;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            progressBar.setVisibility(View.GONE);
         }
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -83,7 +91,11 @@ public class GuoKeDetailPresenter implements GuokeDetailContract.View {
         ProgressBar mProgressBar;
        public MyWebChromeClient(ProgressBar mProgressBar){
            this.mProgressBar= mProgressBar;
+           mProgressBar.setBackgroundResource(R.drawable.loading_animotion);
+           AnimationDrawable animationDrawable = (AnimationDrawable) mProgressBar.getBackground();
+           animationDrawable.start();
        }
+
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             if (newProgress == 100){

@@ -2,8 +2,11 @@ package com.example.tangzhifeng.paperairplane.detailedpager.guoke;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -26,6 +29,12 @@ public class GuokeDetailActivity extends AppCompatActivity {
     @InjectView(R.id.ProgressBar_load)
     ProgressBar ProgressBarLoad;
     GuoKe mGuoKe;
+    @InjectView(R.id.share_id)
+    FloatingActionButton shareId;
+    @InjectView(R.id.floatingActionButton_back)
+    FloatingActionButton floatingActionButtonBack;
+    @InjectView(R.id.coord)
+    CoordinatorLayout coord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,49 +54,41 @@ public class GuokeDetailActivity extends AppCompatActivity {
         mGuokePresenter = new GuoKeDetailPresenter();
         Intent intent = this.getIntent();
         LoadDetail(intent);
-
+        floatingActionButtonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        shareId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");// setType("audio/*");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "share");
+                intent.putExtra(Intent.EXTRA_TEXT, "此处是要分享的内容");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent, getTitle()));
+            }
+        });
     }
 
     private void LoadDetail(Intent intent) {
         Bundle bundle = intent.getBundleExtra("bundle");
         mGuoKe = (GuoKe) bundle.getSerializable("guoke");
         mGuokePresenter.LoadWeb(
-            mGuokePresenter.GetWebUrl(mGuoKe),webView,ProgressBarLoad);
+            mGuokePresenter.GetWebUrl(mGuoKe), webView, ProgressBarLoad);
         imageTop.setImageURI(mGuokePresenter.GetDetailTopIcon(mGuoKe));
     }
-
-//    private void LoadWebView() {
-//        final Intent intent = this.getIntent();
-//        final Bundle bundle = intent.getBundleExtra("bundle");
-//        final GuoKe guoKe = (GuoKe) bundle.getSerializable("guoke");
-//        final String DetailUrl = guoKe.getResult().get(0).getLink();
-//        final String DetailTopImageUrl = guoKe.getResult().get(0).getHeadline_img();
-//        mNoadvWebViewClient = new GuoKeDetailPresenter.NoAdWebViewClient(this, DetailUrl);
-//        Log.i("wkl", "initView: " + guoKe.getResult().get(0).getLink() + intent.getIntExtra("position", 34343));
-//        this.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (DetailUrl == null)
-//                    Toast.makeText(GuokeDetailActivity.this, "详情页Url为空", Toast.LENGTH_SHORT).show();
-//                else {
-//                    imageTop.setImageURI(DetailTopImageUrl);
-//                    webView.loadUrl(DetailUrl);
-//                    webView.getSettings().setJavaScriptEnabled(true);
-//                    webView.setWebViewClient(mNoadvWebViewClient);
-//                }
-//            }
-//        });
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO 自动生成的方法存根
-        if(keyCode==KeyEvent.KEYCODE_BACK) {
-            if(webView.canGoBack()) {           //当webview不是处于第一页面时，返回上一个页面
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (webView.canGoBack()) {           //当webview不是处于第一页面时，返回上一个页面
                 webView.goBack();
                 return true;
-            }
-            else {                              //当webview处于第一页面时,直接退出程序
+            } else {                              //当webview处于第一页面时,直接退出程序
 //                System.exit(0);
             }
 

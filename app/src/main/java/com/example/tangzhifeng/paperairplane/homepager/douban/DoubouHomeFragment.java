@@ -1,21 +1,29 @@
 package com.example.tangzhifeng.paperairplane.homepager.douban;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.adapter.DoubanRecycleAdapter;
 import com.example.tangzhifeng.paperairplane.data.douban.Douban;
+import com.example.tangzhifeng.paperairplane.detailedpager.douban.DoubanDetailsActivity;
+import com.example.tangzhifeng.paperairplane.util.DoubanUtil;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
+import com.example.tangzhifeng.paperairplane.util.RecycleItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -75,10 +83,20 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     @Override
     public void updateAdapter(final List<Douban> doubanList) {
+        if (mDoubanList == null){
+            mDoubanList = doubanList;
+        }
+        Log.i("wkl", "updateAdapter: "+mDoubanList.size());
+        if (mDoubanList != null || mDoubanList.get(mDoubanList.size()-1).getDouban_date()!=doubanList.get(doubanList.size()-1).getDouban_created_time()){
+            for (int i = 0; i < doubanList.size(); i++) {
+                mDoubanList.add(doubanList.get(i));
+            }
+            Log.i("wkl", "updateAdapter: "+mDoubanList.size());
+        }
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DoubanAdapter.setDoubanList(doubanList);
+                DoubanAdapter.setDoubanList(mDoubanList);
                 DoubanAdapter.notifyDataSetChanged();
             }
         });
@@ -98,15 +116,28 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
     @Override
     public void initViews(View view) {
         initRefresh();
-        doubanRefresh = new BGARefreshLayout(getActivity());
+        mDoubanList = new ArrayList<>();
         DoubanAdapter = new DoubanRecycleAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()
             , LinearLayoutManager.VERTICAL, false);
         DoubanRecycle.setLayoutManager(linearLayoutManager);
+        DoubanRecycle.addItemDecoration(
+            new RecycleItemDecoration(getActivity(),
+                LinearLayoutManager.VERTICAL,
+                10, ContextCompat.getColor(getActivity(), R.color.mdtp_white)));
         DoubanAdapter.setOnItemClickListener(new DoubanRecycleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(getActivity(), DoubanDetailsActivity.class);
+                if (mDoubanList != null){
+                    intent.putExtra("douban_detail",mDoubanList.get(position).getDouban_uri());
+                    intent.putExtra("douban_title",mDoubanList.get(position).getDouban_title());
+                    intent.putExtra("douban_detail_img",mDoubanList.get(position).getDouban_icon());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getActivity(), "List没有数据", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -148,10 +179,16 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
 
+                if (mDoubanList != null){
+                    mPresenter.dropRefreshEvent(mDoubanList);
+                }
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        if (mDoubanList != null){
+            mPresenter.pullRefreshEvent(DoubanUtil.getSpecifiedDayBefore(mDoubanList.get(mDoubanList.size()-1).getDouban_date()));
+        }
         return false;
     }
 }

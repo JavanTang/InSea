@@ -17,6 +17,10 @@ import java.util.List;
  */
 
 public class DoubanRecycleAdapter extends RecyclerView.Adapter<DoubanRecycleHolder> {
+    private static final int TYPE_TOP_ITEM = 0;
+    private static final int TYPE_NORMAL_ITEM = 1;
+
+
     List<Douban> DoubanList;
     DoubanRecycleHolder doubanHolder;
     public OnItemClickListener onItemClickListener;
@@ -49,9 +53,21 @@ public class DoubanRecycleAdapter extends RecyclerView.Adapter<DoubanRecycleHold
 
     @Override
     public DoubanRecycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.douban_item_list,parent,false);
-        doubanHolder = new DoubanRecycleHolder(view);
-        return doubanHolder;
+        switch (viewType){
+            case TYPE_TOP_ITEM:
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.douban_top_item_list,parent,false);
+                doubanHolder = new DoubanRecycleHolder(view);
+                return doubanHolder;
+
+            case TYPE_NORMAL_ITEM:
+                View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.douban_item_list,parent,false);
+                doubanHolder = new DoubanRecycleHolder(view1);
+                return doubanHolder;
+
+        }
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.douban_item_list,parent,false);
+//        doubanHolder = new DoubanRecycleHolder(view);
+        return null;
     }
 
     @Override
@@ -86,7 +102,13 @@ public class DoubanRecycleAdapter extends RecyclerView.Adapter<DoubanRecycleHold
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_TOP_ITEM:TYPE_NORMAL_ITEM ;
+    }
+
+    @Override
     public int getItemCount() {
         return DoubanList.size();
     }
+
 }

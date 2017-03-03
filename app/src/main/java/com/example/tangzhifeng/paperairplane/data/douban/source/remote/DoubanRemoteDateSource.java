@@ -127,7 +127,7 @@ public class DoubanRemoteDateSource implements DoubanDateSource {
                     }
                     douban.setDouban_like_count(postsBean.getLike_count());
                     douban.setDouban_title(postsBean.getTitle());
-                    douban.setDouban_uri(postsBean.getOriginal_url());
+                    douban.setDouban_uri(postsBean.getShort_url());
                     getDouban(douban.getDouban_uri(), new DoubanHtmlCallback() {
                         @Override
                         public void onFailure() {

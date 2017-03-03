@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,9 +113,9 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
                 bundle.putSerializable("guoke",GuokeList.get(position));
                 newIntent.putExtra("bundle",bundle);
                 newIntent.putExtra("position",position);
-                Log.i("wkl", "onItemClick: "+newIntent.getIntExtra("position",8)+GuokeList.get(position).getResult().get(0).getLink()
+//                Log.i("wkl", "onItemClick: "+newIntent.getIntExtra("position",8)+GuokeList.get(position).getResult().get(0).getLink()
 
-                );
+//                );
                 /*
                 * Parcelable encountered IOException writing serializable object
                 *抛出这个异常是因为传递的对象里面的对象也要实现Serializable接口
@@ -153,7 +152,6 @@ public class GuokeFragment extends Fragment implements BGARefreshLayout.BGARefre
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing( BGARefreshLayout refreshLayout) {
-        Log.i("tzf", "onBGARefreshLayoutBeginRefreshing: 00000000000000000000000000000000000000000000000000000000000000000000000");
         HttpUtil.sendHttpRequest(LoadNetUtil.GUOKE_URL, new HttpUtil.IHttpCallbackListenet() {
             @Override
             public void onFinish(final String response) {

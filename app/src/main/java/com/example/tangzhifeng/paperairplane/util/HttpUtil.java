@@ -66,9 +66,14 @@ public class HttpUtil {
                     }
 
                     httpCallbackListenet.onFinish(response.toString());
+
+                    reader.close();
+                    inputStream.close();
+
                 } catch (Exception e) {
                     httpCallbackListenet.onError(e);
                 } finally {
+
                     if (urlConnection!=null){
                         urlConnection.disconnect();
                     }

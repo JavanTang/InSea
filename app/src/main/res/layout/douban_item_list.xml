@@ -3,6 +3,7 @@
               xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:background="#ffff"
               android:orientation="vertical"
     >
 
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="#f5f4f4"
+            android:textColor="#eae8e8"
             android:layout_marginLeft="10dp"
             android:textSize="7sp"
             />
@@ -44,56 +45,53 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="130dp"
+        android:id="@+id/relativeLayout"
+        >
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_img"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             />
 
-        <TextView
-            android:gravity="center_vertical"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/douban_title"
-            android:textSize="15dp"
-            android:text="布局测试位置相对性与协调性"
-            android:maxLines="2"
-            android:layout_centerVertical="true"
-
-            android:layout_marginLeft="15dp"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp">
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            >
         <ImageView
             android:layout_width="13dp"
             android:layout_height="13dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="7dp"
-            android:src="@drawable/collect_icon"
+            android:src="@drawable/heart"
+
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8sp"
             android:text="8"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="6dp"
             android:maxLines="1"
-            android:layout_marginLeft="35dp"
             android:layout_marginTop="9dp"
             android:id="@+id/douban_liking_count"
             />
         <ImageView
             android:layout_width="13dp"
             android:layout_height="13dp"
-            android:layout_marginLeft="43dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="7dp"
-            android:src="@drawable/coment_icon"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/chat"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -101,9 +99,26 @@
             android:textSize="8sp"
             android:text="3"
             android:maxLines="1"
-            android:layout_marginLeft="59dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="9dp"
             android:id="@+id/douban_comment_count"
             />
+        </LinearLayout>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/douban_title"
+            android:textSize="15dp"
+            android:text="布局测试位置相对性与协调性"
+            android:maxLines="2"
+            android:layout_marginLeft="21dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
     </RelativeLayout>
+
 </LinearLayout>
