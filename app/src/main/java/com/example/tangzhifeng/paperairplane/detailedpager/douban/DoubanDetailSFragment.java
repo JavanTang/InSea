@@ -51,7 +51,7 @@ public class DoubanDetailSFragment extends Fragment {
         String doubanDetailimg = intent.getStringExtra("douban_detail_img");
 //        Log.i("wkl", "wkl: " + doubanDetail);
         doubanDetailImg.setImageURI(doubanDetailimg);
-        doubanDetailTitle.setText(doubanTitle);
+        doubanDetailTitle.setText("\u3000"+doubanTitle);
         LoadWebView(doubanDetail);
     }
 

@@ -112,7 +112,6 @@ public class HomepagerActivity extends AppCompatActivity {
         mViewpager.setAdapter(viewPagerAdapter);
 
     }
-
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> mFragmentList = new ArrayList<>();

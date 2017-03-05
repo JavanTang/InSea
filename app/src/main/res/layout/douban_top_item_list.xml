@@ -69,10 +69,10 @@
             android:text="布局测试位置相对性与协调性"
             android:textColor="#fff"
             android:maxLines="2"
-            android:layout_marginLeft="21dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginStart="21dp"
             android:layout_marginTop="16dp"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|left"
             />
     </FrameLayout>
 

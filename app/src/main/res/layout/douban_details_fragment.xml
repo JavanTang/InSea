@@ -11,21 +11,24 @@
     <RelativeLayout
         android:background="#5f8343"
         android:layout_width="match_parent"
-        android:layout_height="245dp">
+        android:layout_height="250dp">
 
         <TextView
+
             android:id="@+id/douban_detail_title"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:textSize="15dp"
             android:maxLines="2"
-            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center|left"
             android:textAllCaps="false"
             android:textColor="#e6c5c5"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/douban_detail_img"/>
+            />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/douban_detail_img"
@@ -38,7 +41,7 @@
             fresco:roundBottomRight="true"
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_launcher"
-            android:layout_centerVertical="true"
+            android:layout_above="@+id/douban_detail_title"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 

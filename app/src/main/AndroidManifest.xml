@@ -12,7 +12,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity android:name=".homepager.HomepagerActivity">
+        <activity android:name=".homepager.HomepagerActivity"
+                  android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,11 +22,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".detailedpager.DetailedPagerActivity"/>
-        <activity android:name=".detailedpager.guoke.GuokeDetailActivity">
+        <activity android:name=".detailedpager.guoke.GuokeDetailActivity"
+            android:theme="@style/Activity_Theme"
+                  android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".about.AboutActivity">
+        <activity android:name=".about.AboutActivity"
+                  android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".detailedpager.douban.DoubanDetailsActivity">
+        <activity android:name=".detailedpager.douban.DoubanDetailsActivity"
+                  android:screenOrientation="portrait"
+            >
         </activity>
     </application>
 
