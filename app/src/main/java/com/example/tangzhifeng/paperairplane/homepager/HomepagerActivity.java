@@ -23,6 +23,8 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.ZhihuRemot
 import com.example.tangzhifeng.paperairplane.homepager.douban.DoubanHomePresenter;
 import com.example.tangzhifeng.paperairplane.homepager.douban.DoubouHomeFragment;
 import com.example.tangzhifeng.paperairplane.homepager.guoke.GuokeFragment;
+import com.example.tangzhifeng.paperairplane.homepager.jiandanmeizi.JiandanFragment;
+import com.example.tangzhifeng.paperairplane.homepager.jiandanmeizi.JiandanPresenter;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhiHuHomePresenter;
 import com.example.tangzhifeng.paperairplane.homepager.zhihu.ZhihuHomeFagment;
 
@@ -44,6 +46,8 @@ public class HomepagerActivity extends AppCompatActivity {
     ZhihuHomeFagment mZhihuHomeFagment;
     GuokeFragment mGuokeFragment;
     DoubouHomeFragment mDoubouHomeFragment;
+    JiandanFragment mJiandanFragment;
+
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     @InjectView(R.id.tabs)
@@ -70,7 +74,8 @@ public class HomepagerActivity extends AppCompatActivity {
         mGuokeFragment = new GuokeFragment();
         mDoubouHomeFragment =new DoubouHomeFragment();
         new DoubanHomePresenter(mDoubouHomeFragment,HomepagerActivity.this);
-
+        mJiandanFragment=new JiandanFragment();
+        new JiandanPresenter(mJiandanFragment);
 //        加载Toobar
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
@@ -109,6 +114,7 @@ public class HomepagerActivity extends AppCompatActivity {
         viewPagerAdapter.addFragmentAndTitle(mZhihuHomeFagment, "知乎日报");
         viewPagerAdapter.addFragmentAndTitle(mDoubouHomeFragment, "豆瓣时刻");
         viewPagerAdapter.addFragmentAndTitle(mGuokeFragment, "果壳分钟");
+        viewPagerAdapter.addFragmentAndTitle(mJiandanFragment, "煎蛋妹子图");
         mViewpager.setAdapter(viewPagerAdapter);
 
     }

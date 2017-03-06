@@ -7,6 +7,7 @@ package com.example.tangzhifeng.paperairplane.util;
 
 public class Api {
 
+    public static final String JIANDAN="https://api.getweapp.com/vendor/jandan/random";
     //The latest news
     public static final String LATEST_NEWS="http://news-at.zhihu.com/api/4/news/latest";
 
