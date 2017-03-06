@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
  * 邮箱: tzfjobmail@gmail.com
  */
 
-public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.View,BGARefreshLayout.BGARefreshLayoutDelegate {
+public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.View, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     DoubanHomeContract.Presenter mPresenter;
 
@@ -51,6 +50,13 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
     ImageView unhappyImg;
     @InjectView(R.id.connect_error_hint)
     TextView connectErrorHint;
+
+    public static final int OPERATION_PULL_UP = 1;
+    public static final int OPERATION_DROP_DOWN = 2;
+    public static final int OPERATION_INIT=-1;
+
+    int current_opearation = -1;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,10 +76,16 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     @Override
     public void showNetwordNotAvailable() {
-        if (HttpUtil.isNetworkAvailable(getActivity())) {
-            unhappyImg.setVisibility(View.VISIBLE);
-            connectErrorHint.setVisibility(View.VISIBLE);
-        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (HttpUtil.isNetworkAvailable(getActivity())) {
+                    unhappyImg.setVisibility(View.VISIBLE);
+                    connectErrorHint.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -83,16 +95,31 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     @Override
     public void updateAdapter(final List<Douban> doubanList) {
-        if (mDoubanList == null){
-            mDoubanList = doubanList;
+        switch (current_opearation){
+            case OPERATION_INIT:
+                mDoubanList=doubanList;
+            case OPERATION_DROP_DOWN:
+                mDoubanList=doubanList;
+                break;
+            case OPERATION_PULL_UP:
+                //验证是不是有重复的数据,如果出现没有出现过的数据则将它存储
+
+                for (Douban douban : doubanList) {
+                    boolean make=false;
+                    for (Douban douban1 : mDoubanList) {
+                        if(douban.getDouban_id()==douban1.getDouban_id()){
+                            make=true;
+                            break;
+                        }
+                    }
+                    if(!make){
+                        mDoubanList.add(douban);
+                    }
+                }
+                break;
         }
-        Log.i("wkl", "updateAdapter: "+mDoubanList.size());
-        if (mDoubanList != null || mDoubanList.get(mDoubanList.size()-1).getDouban_date()!=doubanList.get(doubanList.size()-1).getDouban_created_time()){
-            for (int i = 0; i < doubanList.size(); i++) {
-                mDoubanList.add(doubanList.get(i));
-            }
-            Log.i("wkl", "updateAdapter: "+mDoubanList.size());
-        }
+
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -105,7 +132,7 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     @Override
     public void stopRefreshView() {
-            doubanRefresh.endRefreshing();
+        doubanRefresh.endRefreshing();
     }
 
     @Override
@@ -119,23 +146,22 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
         mDoubanList = new ArrayList<>();
         DoubanAdapter = new DoubanRecycleAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()
-            , LinearLayoutManager.VERTICAL, false);
+                , LinearLayoutManager.VERTICAL, false);
         DoubanRecycle.setLayoutManager(linearLayoutManager);
         DoubanRecycle.addItemDecoration(
-            new RecycleItemDecoration(getActivity(),
-                LinearLayoutManager.VERTICAL,
-                10, ContextCompat.getColor(getActivity(), R.color.mdtp_white)));
+                new RecycleItemDecoration(getActivity(),
+                        LinearLayoutManager.VERTICAL,
+                        10, ContextCompat.getColor(getActivity(), R.color.mdtp_white)));
         DoubanAdapter.setOnItemClickListener(new DoubanRecycleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), DoubanDetailsActivity.class);
-                if (mDoubanList != null){
-                    intent.putExtra("douban_detail",mDoubanList.get(position).getDouban_uri());
-                    intent.putExtra("douban_title",mDoubanList.get(position).getDouban_title());
-                    intent.putExtra("douban_detail_img",mDoubanList.get(position).getDouban_icon());
+                if (mDoubanList != null) {
+                    intent.putExtra("douban_detail", mDoubanList.get(position).getDouban_uri());
+                    intent.putExtra("douban_title", mDoubanList.get(position).getDouban_title());
+                    intent.putExtra("douban_detail_img", mDoubanList.get(position).getDouban_icon());
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(getActivity(), "List没有数据", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -150,23 +176,7 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     private void initRefresh() {
         doubanRefresh.setDelegate(this);
-        BGARefreshViewHolder refreshViewHold = new BGANormalRefreshViewHolder(getActivity(),true);
-        // 为了增加下拉刷新头部和加载更多的通用性，提供了以下可选配置选项  -------------START
-        // 设置正在加载更多时不显示加载更多控件
-        //  mRefreshLayout.setIsShowLoadingMoreView(true);
-        // 设置正在加载更多时的文本
-        // refreshViewHolder.setLoadingMoreText("eee");
-        // 设置整个加载更多控件的背景颜色资源id
-        //refreshViewHolder.setLoadMoreBackgroundColorRes(R.color.srl_blue_bright);
-        // 设置整个加载更多控件的背景drawable资源id
-        //refreshViewHolder.setLoadMoreBackgroundDrawableRes(R.mipmap.ic_launcher);
-        // 设置下拉刷新控件的背景颜色资源id
-        //  refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.colorPrimaryDark);
-        // 设置下拉刷新控件的背景drawable资源id
-        //  refreshViewHolder.setRefreshViewBackgroundDrawableRes(R.mipmap.bga_refresh_loading01);
-        // 设置自定义头部视图（也可以不用设置）     参数1：自定义头部视图（例如广告位）， 参数2：上拉加载更多是否可用
-        //    mRefreshLayout.setCustomHeaderView(mBanner, false);
-        // 可选配置  -------------END
+        BGARefreshViewHolder refreshViewHold = new BGANormalRefreshViewHolder(getActivity(), true);
         doubanRefresh.setRefreshViewHolder(refreshViewHold);
     }
 
@@ -178,16 +188,17 @@ public class DoubouHomeFragment extends Fragment implements DoubanHomeContract.V
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-
-                if (mDoubanList != null){
-                    mPresenter.dropRefreshEvent(mDoubanList);
-                }
+        current_opearation = OPERATION_DROP_DOWN;
+        if (mDoubanList != null) {
+            mPresenter.dropRefreshEvent(mDoubanList);
+        }
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-        if (mDoubanList != null){
-            mPresenter.pullRefreshEvent(DoubanUtil.getSpecifiedDayBefore(mDoubanList.get(mDoubanList.size()-1).getDouban_date()));
+        if (mDoubanList != null) {
+            mPresenter.pullRefreshEvent(DoubanUtil.getSpecifiedDayBefore(mDoubanList.get(mDoubanList.size() - 1).getDouban_date()));
+            current_opearation = OPERATION_PULL_UP;
         }
         return false;
     }

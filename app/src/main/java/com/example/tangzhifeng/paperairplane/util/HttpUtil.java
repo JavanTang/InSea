@@ -57,6 +57,8 @@ public class HttpUtil {
                     URL url = new URL(address);
 
                     urlConnection = (HttpURLConnection) url.openConnection();
+
+
                     InputStream inputStream = urlConnection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     StringBuffer response = new StringBuffer();
