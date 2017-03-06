@@ -1,5 +1,6 @@
 package com.example.tangzhifeng.paperairplane.homepager.jiandanmeizi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.adapter.JianguoRecycleAdapter;
 import com.example.tangzhifeng.paperairplane.data.jiandan.Jiandan;
+import com.example.tangzhifeng.paperairplane.detailedpager.jiandan.JiandanDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +119,14 @@ public class JiandanFragment extends Fragment implements JiandanContract.View, B
         initRefresh();
         mJiandanList=new ArrayList<>();
         mJianguoRecycleAdapter=new JianguoRecycleAdapter(mJiandanList,getContext());
+        mJianguoRecycleAdapter.setClickListener(new JianguoRecycleAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, String uri) {
+                Intent intent=new Intent(getContext(), JiandanDetailActivity.class);
+                intent.putExtra("uri",uri);
+                startActivity(intent);
+            }
+        });
         mJianguohomeRecycle.setAdapter(mJianguoRecycleAdapter);
         mJianguohomeRecycle.setLayoutManager(new GridLayoutManager(getContext(),3));
         mPresenter.start();

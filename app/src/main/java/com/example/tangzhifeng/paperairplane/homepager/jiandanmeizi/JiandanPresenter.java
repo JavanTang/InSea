@@ -50,7 +50,7 @@ public class JiandanPresenter implements JiandanContract.Presenter {
     @Override
     public void pullRefreshEvent() {
         dropRefreshEvent();
-        
+
     }
 
 
