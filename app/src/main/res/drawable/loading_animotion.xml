@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false"
     >
-    <item android:drawable="@drawable/heart" android:duration="100"/>
-    <item android:drawable="@drawable/chat" android:duration="100"/>
-    <item android:drawable="@drawable/coment_icon" android:duration="100"/>
-    <item android:drawable="@drawable/share" android:duration="100"/>
+    <item android:drawable="@drawable/connect_net_error" android:duration="100"/>
+    <item android:drawable="@drawable/load2" android:duration="100"/>
+
 
 </animation-list>

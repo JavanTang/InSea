@@ -95,7 +95,7 @@ public class GuoKeDetailPresenter implements GuokeDetailContract.view {
                 float xmoveDistance = event.getX() - Xdown;
                 float ymoveDistance = event.getY() - Ydown;
                 if (ymoveDistance < xmoveDistance){
-                    if (xmoveDistance > screenWidth/3&&Xdown<event.getX()||xVelocity>700){
+                    if (xmoveDistance > screenWidth/3||xVelocity>700){
                         continueMove(xmoveDistance,decorView,activity,screenWidth);
                     }
                     else {

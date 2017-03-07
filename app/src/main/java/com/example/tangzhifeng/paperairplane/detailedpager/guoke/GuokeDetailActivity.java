@@ -69,7 +69,7 @@ public class GuokeDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
-        initMyViewGroup();
+//        initMyViewGroup();
         measureScreen();
         mGuokePresenter = new GuoKeDetailPresenter();
         Intent intent = this.getIntent();
@@ -130,40 +130,40 @@ public class GuokeDetailActivity extends AppCompatActivity implements View.OnCli
         imageTop.setImageURI(mGuokePresenter.GetDetailTopIcon(mGuoKe));
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                Xdown = ev.getX();
-                Ydown = ev.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float xMove1 = ev.getX() - Xdown;
-                float ymove1 = ev.getY() - Ydown;
-                if (xMove1 > ymove1&&(ymove1>Ydown-20||ymove1<Ydown+20)) {
-                    mGuokePresenter.SildingTouchEvent(decorView, ev, Xdown,Ydown, screenWidth, GuokeDetailActivity.this);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                float xMove = ev.getX() - Xdown;
-                float ymove = ev.getY() - Ydown;
-                if (xMove > ymove) {
-                    mGuokePresenter.SildingTouchEvent(decorView, ev, Xdown,Ydown, screenWidth, GuokeDetailActivity.this);
-//                    return true;
-                }
-
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-
 //    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        mGuokePresenter.SildingTouchEvent(decorView, event, Xdown, screenWidth, GuokeDetailActivity.this);
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
 //
-//        return super.onTouchEvent(event);
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                Xdown = ev.getX();
+//                Ydown = ev.getY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                float xMove1 = ev.getX() - Xdown;
+//                float ymove1 = ev.getY() - Ydown;
+//                if (xMove1 > ymove1&&(ymove1>Ydown-20||ymove1<Ydown+20)) {
+//                    mGuokePresenter.SildingTouchEvent(decorView, ev, Xdown,Ydown, screenWidth, GuokeDetailActivity.this);
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                float xMove = ev.getX() - Xdown;
+//                float ymove = ev.getY() - Ydown;
+//                if (xMove > ymove) {
+//                    mGuokePresenter.SildingTouchEvent(decorView, ev, Xdown,Ydown, screenWidth, GuokeDetailActivity.this);
+////                    return true;
+//                }
+//
+//        }
+//        return super.dispatchTouchEvent(ev);
 //    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGuokePresenter.SildingTouchEvent(decorView, event, Xdown,Ydown, screenWidth, GuokeDetailActivity.this);
+
+        return super.onTouchEvent(event);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

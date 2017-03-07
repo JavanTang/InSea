@@ -11,4 +11,10 @@
         <item name="android:windowFullscreen">true</item>
 
     </style>
+    <style name="MyProgressBar_style" parent="Base.Widget.AppCompat.ProgressBar">
+        <item name="android:progressDrawable">@drawable/loading_animotion</item>
+
+
+
+    </style>
 </resources>

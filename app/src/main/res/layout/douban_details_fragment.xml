@@ -53,6 +53,7 @@
         />
     <ProgressBar
         android:id="@+id/douban_ProgressBar_load"
+        android:indeterminateDrawable="@drawable/progressbar_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
