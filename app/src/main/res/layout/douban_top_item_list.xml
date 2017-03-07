@@ -67,13 +67,14 @@
             android:id="@+id/douban_title"
             android:textSize="20dp"
             android:text="布局测试位置相对性与协调性"
-            android:textColor="#fff"
+            android:textColor="#d1d1d1"
             android:maxLines="2"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="21dp"
             android:layout_marginTop="16dp"
             android:layout_gravity="bottom|left"
             />
+
     </FrameLayout>
 
     <RelativeLayout

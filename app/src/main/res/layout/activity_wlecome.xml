@@ -7,12 +7,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/welcome_page"
+    android:background="#2fc49a"
     />
 
     <ImageView
-        android:layout_width="131dp"
-        android:layout_height="82dp"
+        android:layout_width="90dp"
+        android:layout_height="57dp"
         android:src="@drawable/zhiji"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/zhiji_yulu"
+        android:visibility="gone"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="为了更美好的生活"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:textColor="#ffffff"
         />
 </FrameLayout>

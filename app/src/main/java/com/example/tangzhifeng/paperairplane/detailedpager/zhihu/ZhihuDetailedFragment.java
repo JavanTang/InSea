@@ -70,6 +70,7 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     public void showTitile(String title) {
         mToolbar.setTitle(title);
 
+
     }
 
     @Override
@@ -91,7 +92,14 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
             public void run() {
                 mWebView.loadDataWithBaseURL("x-data://base",zhiHu.getBody(),"text/html","utf-8",null);
                 mImageView.setImageURI(Uri.parse(zhiHu.getImage()));
-                mToolbar.setTitle(zhiHu.getTitle());
+                mToolbar.setTitle("");
+                /**
+                 * 扩展后的Toorbar的title颜色
+                 */
+                mToolbarLayout.setExpandedTitleColor(Color.rgb(192,192,192));
+//                mToolbarLayout.setExpandedTitleTextAppearance(R.style.Toorbar_style);
+                mToolbarLayout.setCollapsedTitleTextColor(Color.rgb(202,235,216));
+
             }
         });
 

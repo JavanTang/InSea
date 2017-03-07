@@ -14,7 +14,12 @@
     <style name="MyProgressBar_style" parent="Base.Widget.AppCompat.ProgressBar">
         <item name="android:progressDrawable">@drawable/loading_animotion</item>
 
+    </style>
 
-
+    <style name="Toorbar_style" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- textColor 定义标题文字的颜色 -->
+        <item name="android:textSize">20dp</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:inputType">textMultiLine</item>
     </style>
 </resources>
