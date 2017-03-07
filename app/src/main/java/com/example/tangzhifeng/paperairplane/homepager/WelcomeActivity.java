@@ -47,7 +47,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void init() {
         mhandler.sendEmptyMessageDelayed(GO_HOME, TIME);
-        welcomePage.setImageURI("http://sjbz.fd.zol-img.com.cn/t_s320x510c/g5/M00/0F/09/ChMkJlfJQV-IcONQAAltFeAFr3oAAU7cgKlPZgACW0t792.jpg");
+//        welcomePage.setImageURI("http://sjbz.fd.zol-img.com.cn/t_s320x510c/g5/M00/0F/09/ChMkJlfJQV-IcONQAAltFeAFr3oAAU7cgKlPZgACW0t792.jpg");
     }
 
     @Override
