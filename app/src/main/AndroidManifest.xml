@@ -28,7 +28,7 @@
         </activity>
         <activity android:name=".detailedpager.DetailedPagerActivity"/>
         <activity android:name=".detailedpager.guoke.GuokeDetailActivity"
-            android:theme="@style/Activity_Theme"
+
                   android:screenOrientation="portrait"
             >
         </activity>

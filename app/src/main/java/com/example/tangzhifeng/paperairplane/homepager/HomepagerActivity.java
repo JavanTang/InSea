@@ -114,7 +114,7 @@ public class HomepagerActivity extends AppCompatActivity {
         viewPagerAdapter.addFragmentAndTitle(mZhihuHomeFagment, "知乎日报");
         viewPagerAdapter.addFragmentAndTitle(mDoubouHomeFragment, "豆瓣时刻");
         viewPagerAdapter.addFragmentAndTitle(mGuokeFragment, "果壳分钟");
-        viewPagerAdapter.addFragmentAndTitle(mJiandanFragment, "煎蛋妹子图");
+//        viewPagerAdapter.addFragmentAndTitle(mJiandanFragment, "煎蛋妹子图");
         mViewpager.setAdapter(viewPagerAdapter);
 
     }
