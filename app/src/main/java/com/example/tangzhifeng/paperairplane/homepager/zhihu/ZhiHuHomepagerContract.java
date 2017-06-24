@@ -42,8 +42,10 @@ public interface ZhiHuHomepagerContract {
         void stopPullToRefresh();
         //停止下拉刷新
         void stopDropToRefresh();
-
+        //显示知乎列表没有更新
         void showZhihuListNotUpdate();
+        //显示获取失败
+        void showDPROP();
     }
 
 }

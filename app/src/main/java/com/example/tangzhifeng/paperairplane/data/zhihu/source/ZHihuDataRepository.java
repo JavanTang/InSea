@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.example.tangzhifeng.paperairplane.MyApplication;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.IZhihuLocalDataSource;
+import com.example.tangzhifeng.paperairplane.data.zhihu.source.remote.IZhihuRemoteSource;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 
 import java.util.List;
@@ -14,22 +16,22 @@ import java.util.List;
  * 邮箱: tzfjobmail@gmail.com
  */
 
-public class ZHihuDataRepository implements ZhihuDateSource {
+public class ZHihuDataRepository implements IZhihuLocalDataSource,IZhihuRemoteSource {
 
     // TODO: 2017/2/15 先完成remote部分的操作
 
 
 
     private static ZHihuDataRepository sZhihuDateRepository;
-    public ZhihuDateSource localData;
-    public ZhihuDateSource remoteData;
+    public IZhihuLocalDataSource localData;
+    public IZhihuRemoteSource remoteData;
 
-    public ZHihuDataRepository(ZhihuDateSource remoteData, ZhihuDateSource localData) {
+    public ZHihuDataRepository(IZhihuRemoteSource remoteData, IZhihuLocalDataSource localData) {
         this.remoteData = remoteData;
         this.localData = localData;
     }
 
-    public static ZHihuDataRepository getInstance(ZhihuDateSource remoteData, ZhihuDateSource localData) {
+    public static ZHihuDataRepository getInstance(IZhihuRemoteSource remoteData, IZhihuLocalDataSource localData) {
         if (sZhihuDateRepository==null){
             sZhihuDateRepository=new ZHihuDataRepository(remoteData,localData);
         }
@@ -93,24 +95,16 @@ public class ZHihuDataRepository implements ZhihuDateSource {
 
     @Override
     public void saveZhihu(ZhiHu zhiHu) {
-        if (!localData.isCheckId(zhiHu.getId()+"")) {
+        if (!localData.isLocalCheckId(zhiHu.getId()+"")) {
             localData.saveZhihu(zhiHu);
         }
 
     }
 
-    @Override
-    public void deleteZhiHu(ZhiHu zhiHu) {
 
-    }
 
     @Override
-    public void deleteZhiHu(String id) {
-
-    }
-
-    @Override
-    public boolean isCheckId(String id) {
+    public boolean isLocalCheckId(String id) {
         return false;
     }
 }

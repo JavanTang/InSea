@@ -16,8 +16,6 @@ import com.example.tangzhifeng.paperairplane.util.HttpUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-
 /**
  * 作者: tangzhifeng on 2017/2/15.
  * 邮箱: tzfjobmail@gmail.com
@@ -25,6 +23,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
+    private static final String TAG = "tzf";
     ZhiHuHomepagerContract.View mView;
     ZHihuDataRepository mZhihuDateRepository;
 
@@ -40,8 +39,6 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
      */
     @Override
     public void start() {
-
-
         mZhihuDateRepository.localData.getZhiHuList(new ZhihuDateSource.LoadZhiHuListCallback() {
             @Override
             public void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists) {
@@ -50,6 +47,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
             @Override
             public void onZhiHuListNotAvailable() {
+                mView.showDPROP();
 
             }
         });
@@ -63,8 +61,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
     @Override
     public void dropDownRefresh(final List<ZhiHuList> lists, final ZhihuRecycleAdapter zhihuRecycleAdapter) {
         if (!HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mView.stopDropToRefresh();
-            mView.stopPullToRefresh();
+            mView.showNetwordNotAvailable();
             return;
         }
         mZhihuDateRepository.isZhihuListUpdate(lists.get(0), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
@@ -72,29 +69,25 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
             public void onZHihuListUpdate(final ZhiHuList zhiHuList) {
                 List<ZhiHuList> zhiHuLists = new ArrayList<ZhiHuList>();
                 zhiHuLists = zhihuRecycleAdapter.getZhiHuLists();
-
                 zhiHuLists.remove(0);
                 zhiHuLists.add(0, zhiHuList);
                 zhihuRecycleAdapter.setZhiHuLists(zhiHuLists);
-
                 for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
                     mZhihuDateRepository.getZhihu(storiesBean.getId() + "", new ZhihuDateSource.GetZhiHuCallback() {
                         @Override
                         public void onZhiHuLoaded(ZhiHu zhiHu) {
                             zhiHu.setDate(zhiHuList.getDate());
                             mZhihuDateRepository.saveZhihu(zhiHu);
+
                         }
 
                         @Override
                         public void onZhiHuObtainFailure() {
+                            mView.showDPROP();
                         }
                     });
 
                 }
-
-                mView.stopDropToRefresh();
-                mView.stopPullToRefresh();
-
             }
 
             @Override
@@ -111,15 +104,14 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
         if (!HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
             mView.stopDropToRefresh();
             mView.stopPullToRefresh();
+            mView.showNetwordNotAvailable();
             return;
         }
-//lists.get(lists.size() - 1).getDate()
         String date;
-        if (lists.get(lists.size() - 1).getStories().get(0).getDate()!=null){
-             date=lists.get(lists.size() - 1).getStories().get(0).getDate();
-        }else
-        {
-            date=lists.get(lists.size() - 1).getDate();
+        if (lists.get(lists.size() - 1).getStories().get(0).getDate() != null) {
+            date = lists.get(lists.size() - 1).getStories().get(0).getDate();
+        } else {
+            date = lists.get(lists.size() - 1).getDate();
         }
 
         mZhihuDateRepository.getZHihuList(date, new ZhihuDateSource.LoadZhiHuListCallback() {
@@ -138,7 +130,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
                             @Override
                             public void onZhiHuObtainFailure() {
-                                Log.i(TAG, "onZhiHuObtainFailure: !!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                mView.showDPROP();
                             }
                         });
 
@@ -160,7 +152,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
     @Override
     public void ClickZhihuItem(String id) {
-
+        Log.i(TAG, "ClickZhihuItem: "+id);
     }
 
 
@@ -169,7 +161,6 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
         Intent intent = new Intent(context, DetailedPagerActivity.class);
         intent.putExtra("mode", DetailedPagerActivity.MODE_ZHIHU);
         intent.putExtra("id", Integer.valueOf(s));
-
         context.startActivity(intent);
     }
 }

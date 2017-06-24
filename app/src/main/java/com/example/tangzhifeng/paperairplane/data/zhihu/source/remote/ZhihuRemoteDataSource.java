@@ -7,7 +7,6 @@ import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuListNews;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZHihuDataRepository;
-import com.example.tangzhifeng.paperairplane.data.zhihu.source.ZhihuDateSource;
 import com.example.tangzhifeng.paperairplane.data.zhihu.source.local.ZHihuLocalDataSource;
 import com.example.tangzhifeng.paperairplane.util.Api;
 import com.example.tangzhifeng.paperairplane.util.HttpUtil;
@@ -27,7 +26,7 @@ import okhttp3.Request;
  * 邮箱: tzfjobmail@gmail.com
  */
 
-public class ZhihuRemoteDataSource implements ZhihuDateSource {
+public class ZhihuRemoteDataSource implements IZhihuRemoteSource {
 
     private static ZhihuRemoteDataSource sZhihuRemoteDataSource;
     private static ZHihuLocalDataSource sZHihuLocalDataSource;
@@ -62,7 +61,6 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
                 ZhiHuListNews zhiHuListNews = new ZhiHuListNews();
                 Gson gson = new Gson();
                 zhiHuListNews = gson.fromJson(result, ZhiHuListNews.class);
-
                 zhiHuList.setDate(ZhihuUtil.getCurrentDate());
                 //如果zhiHuList为空,则直接导入数据
                 if (zhiHuList.getStories() == null) {
@@ -112,18 +110,11 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
 
             @Override
             public void onError(Exception e) {
-
+                loadZhiHuListCallback.onZhiHuListNotAvailable();
             }
         });
 
     }
-
-
-    @Override
-    public void saveZhiHuList(List<ZhiHuList> zhiHuLists) {
-
-    }
-
 
     @Override
     public void getZhihu(String id, final GetZhiHuCallback getZhiHuCallback) {
@@ -144,23 +135,5 @@ public class ZhihuRemoteDataSource implements ZhihuDateSource {
         });
     }
 
-    @Override
-    public void saveZhihu(ZhiHu zhiHu) {
 
-    }
-
-    @Override
-    public void deleteZhiHu(ZhiHu zhiHu) {
-
-    }
-
-    @Override
-    public void deleteZhiHu(String id) {
-
-    }
-
-    @Override
-    public boolean isCheckId(String id) {
-        return false;
-    }
 }

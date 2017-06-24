@@ -149,6 +149,11 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
     }
 
     @Override
+    public void showDPROP() {
+        Toast.makeText(getContext(), "数据获取失败!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void setPresenter(ZhiHuHomepagerContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -172,6 +177,8 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         mPresenter.dropDownRefresh(mZhiHuLists, mZhihuRecycleAdapter);
+        stopDropToRefresh();
+        stopPullToRefresh();
     }
 
     @Override

@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import com.example.tangzhifeng.paperairplane.R;
 import com.example.tangzhifeng.paperairplane.about.AboutActivity;
@@ -59,54 +58,64 @@ public class HomepagerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepageractivity);
-        //取消标题栏
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //取消状态栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        ButterKnife.inject(this);
+        initFragment();
+        initView();
 
-//        初始化三大Fragment
-        mZhihuHomeFagment = new ZhihuHomeFagment();
-        new ZhiHuHomePresenter(mZhihuHomeFagment,
-                new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getApplicationContext()),
-                        ZHihuLocalDataSource.getInstance(getApplicationContext())));
-        mGuokeFragment = new GuokeFragment();
-        mDoubouHomeFragment =new DoubouHomeFragment();
-        new DoubanHomePresenter(mDoubouHomeFragment,HomepagerActivity.this);
-        mJiandanFragment=new JiandanFragment();
-        new JiandanPresenter(mJiandanFragment);
-//        加载Toobar
+        //加载Toobar
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         setupViewPager(mViewpager);
         mTabs.setupWithViewPager(mViewpager);
+
         //这段代码有预加载的功能但是会受到果壳的影响
         mViewpager.setOffscreenPageLimit(3);
         mViewpager.setCurrentItem(0);
         mTabs.setId(0);
-//        Toolbar的点击事件
+    }
+
+    private void initView() {
+        //取消标题栏
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //取消状态栏
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        ButterKnife.inject(this);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.main_about:
-                        Intent intent=new Intent(HomepagerActivity.this, AboutActivity.class);
+                        Intent intent = new Intent(HomepagerActivity.this, AboutActivity.class);
                         startActivity(intent);
                         break;
                 }
                 return true;
             }
         });
+    }
 
+    /**
+     * 初始化Fragment
+     */
+    private void initFragment() {
+        mZhihuHomeFagment = new ZhihuHomeFagment();
+        mGuokeFragment = new GuokeFragment();
+        mDoubouHomeFragment = new DoubouHomeFragment();
+        mJiandanFragment = new JiandanFragment();
+
+        new ZhiHuHomePresenter(mZhihuHomeFagment,
+                new ZHihuDataRepository(ZhihuRemoteDataSource.getInstance(getApplicationContext()),
+                        ZHihuLocalDataSource.getInstance(getApplicationContext())));
+        new DoubanHomePresenter(mDoubouHomeFragment, HomepagerActivity.this);
+        new JiandanPresenter(mJiandanFragment);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main_drawer,menu);
+        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return true;
     }
-
 
 
     public void setupViewPager(ViewPager upViewPager) {
@@ -114,10 +123,12 @@ public class HomepagerActivity extends AppCompatActivity {
         viewPagerAdapter.addFragmentAndTitle(mZhihuHomeFagment, "知乎日报");
         viewPagerAdapter.addFragmentAndTitle(mDoubouHomeFragment, "豆瓣时刻");
         viewPagerAdapter.addFragmentAndTitle(mGuokeFragment, "果壳分钟");
+        // TODO: 2017/6/23 本来这个还有一个页面是显示煎蛋的妹子图
 //        viewPagerAdapter.addFragmentAndTitle(mJiandanFragment, "煎蛋妹子图");
         mViewpager.setAdapter(viewPagerAdapter);
 
     }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> mFragmentList = new ArrayList<>();

@@ -85,12 +85,9 @@ public class HttpUtil {
     }
 
     public static void sendArgRequest(String httpUrl, final String httpArg, final IHttpCallbackListenet callbackListenet) {
-
-
         // TODO: 2017/1/4 county code have a bug
         httpUrl = httpUrl + "?" +httpArg;
         final String finalHttpUrl = httpUrl;
-
 //        Log.e(TAG, "sendArgRequest: finalHttpUrl="+finalHttpUrl+"\t CountyCode ==>>\t"+httpArg,new Exception());
         new Thread(new Runnable() {
             @Override

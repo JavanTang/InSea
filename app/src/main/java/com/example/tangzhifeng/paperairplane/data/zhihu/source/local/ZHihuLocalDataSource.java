@@ -20,12 +20,11 @@ import java.util.List;
  * 邮箱: tzfjobmail@gmail.com
  */
 
-public class ZHihuLocalDataSource implements ZhihuDateSource {
+public class ZHihuLocalDataSource implements IZhihuLocalDataSource {
     private static ZHihuLocalDataSource sZHihuLocalDataSource;
     private InSeaDbHelper mInSeaDbHelper;
 
     public static final String TAG = "tzf";
-
 
 
     private ZHihuLocalDataSource(Context context) {
@@ -41,18 +40,18 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
 
 
     @Override
-    public void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
+    public void isZhihuListUpdate(ZhiHuList zhiHuList, ZhihuDateSource.CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack) {
 
     }
 
     @Override
-    public synchronized void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
-        SQLiteDatabase db=mInSeaDbHelper.getReadableDatabase();
-        Cursor c=db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME,null,null,null,null,null,null);
-        ZhiHuList zhiHuList=new ZhiHuList();
-        List<ZhiHuList.StoriesBean> storiesBeanList=new ArrayList<>();
-        if(c!=null&&c.getCount()>0){
-            while (c.moveToNext()){
+    public synchronized void getZhiHuList(@NonNull ZhihuDateSource.LoadZhiHuListCallback loadZhiHuListCallback) {
+        SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
+        Cursor c = db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME, null, null, null, null, null, null);
+        ZhiHuList zhiHuList = new ZhiHuList();
+        List<ZhiHuList.StoriesBean> storiesBeanList = new ArrayList<>();
+        if (c != null && c.getCount() > 0) {
+            while (c.moveToNext()) {
                 String ZHihu_id = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID));
                 String Zhihu_title = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE));
                 String Zhihu_img = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG));
@@ -61,11 +60,11 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
                 String Zhihu_date = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
 
 
-                ZhiHuList.StoriesBean storiesBean=new ZhiHuList.StoriesBean();
+                ZhiHuList.StoriesBean storiesBean = new ZhiHuList.StoriesBean();
                 storiesBean.setTitle(Zhihu_title);
                 storiesBean.setId(Integer.valueOf(ZHihu_id));
                 storiesBean.setDate(Zhihu_date);
-                List<String> imgs=new ArrayList<>();
+                List<String> imgs = new ArrayList<>();
                 imgs.add(Zhihu_img);
                 storiesBean.setImages(imgs);
                 storiesBeanList.add(storiesBean);
@@ -73,12 +72,12 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
             }
         }
         zhiHuList.setStories(storiesBeanList);
-        if(storiesBeanList.size()>0){
-            List<ZhiHuList> zhiHuLists=new ArrayList<>();
+        if (storiesBeanList.size() > 0) {
+            List<ZhiHuList> zhiHuLists = new ArrayList<>();
             zhiHuLists.add(zhiHuList);
             zhiHuLists.get(0).setDate(ZhihuUtil.getCurrentDate());
             loadZhiHuListCallback.onZhiHuListLoaded(zhiHuLists);
-        }else{
+        } else {
             loadZhiHuListCallback.onZhiHuListNotAvailable();
         }
     }
@@ -110,7 +109,7 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
             String Zhihu_img = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG));
             String Zhihu_body = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY));
             String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
-            String Zhihu_date=c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
+            String Zhihu_date = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
             ZhiHu zhiHu = new ZhiHu();
             zhiHu.setBody(Zhihu_body);
             zhiHu.setTitle(Zhihu_title);
@@ -139,7 +138,6 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE, zhiHu.getTitle());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG, zhiHu.getImage());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE, zhiHu.getDate());
-
         if (zhiHu.getImages() == null) {
             contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG, zhiHu.getImage());
         } else {
@@ -150,28 +148,17 @@ public class ZHihuLocalDataSource implements ZhihuDateSource {
     }
 
 
-    @Override
-    public void deleteZhiHu(ZhiHu zhiHu) {
-
-    }
-
-    @Override
-    public void deleteZhiHu(String id) {
-
-    }
-
-    public synchronized boolean isCheckId(String id){
-        boolean make=true;
+    public synchronized boolean isLocalCheckId(String id) {
+        boolean make = true;
         SQLiteDatabase db = mInSeaDbHelper.getReadableDatabase();
-
         Cursor c = db.query(ZhihuPersistencContract.ZhihuEntry.TABLE_NAME, null
                 , ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID + "=?", new String[]{id}, null, null, null
         );
 
-        if (c.getCount()==0) {
-            make=false;
-        }else{
-            make=true;
+        if (c.getCount() == 0) {
+            make = false;
+        } else {
+            make = true;
         }
         if (c != null) {
             c.close();

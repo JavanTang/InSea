@@ -12,7 +12,7 @@ import java.util.List;
  * 邮箱: tzfjobmail@gmail.com
  */
 
-public interface IZhihuDateSource {
+public interface ZhihuDateSource {
 
 
     /**
@@ -55,16 +55,6 @@ public interface IZhihuDateSource {
     }
 
 
-
-    /**
-     * 检查知乎日报是否更新
-     *
-     * @param zhiHuList                    需要验证的zhihulist
-     * @param checkZhihuListUpdateCallBack 回调函数
-     */
-    //
-    void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack);
-
     /**
      * 获取最新知乎日报列表集合,通过LoadZhiHuListCallback来接收
      * 获取
@@ -83,15 +73,15 @@ public interface IZhihuDateSource {
     void getZHihuList(String date, LoadZhiHuListCallback loadZhiHuListCallback);
 
 
-    //保存知乎日报列表
-    void saveZhiHuList(List<ZhiHuList> zhiHuLists);
-
     //获取知乎详细信息
     void getZhihu(String id, GetZhiHuCallback getZhiHuCallback);
+    /**
+     * 检查知乎日报是否更新
+     *
+     * @param zhiHuList                    需要验证的zhihulist
+     * @param checkZhihuListUpdateCallBack 回调函数
+     */
+    //
+    void isZhihuListUpdate(ZhiHuList zhiHuList, CheckZhihuListUpdateCallBack checkZhihuListUpdateCallBack);
 
-    //保存知乎详细信息
-    void saveZhihu(ZhiHu zhiHu);
-
-    //检查是否存在  true为存在  false为不存在
-    boolean isCheckId(String id);
 }
