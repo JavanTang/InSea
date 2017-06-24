@@ -12,7 +12,7 @@ import java.util.List;
  * 邮箱: tzfjobmail@gmail.com
  */
 
-public interface ZhihuDateSource {
+public interface IZhihuDateSource {
 
 
     /**
@@ -54,6 +54,8 @@ public interface ZhihuDateSource {
         void onZhihuListNotUpdate();
     }
 
+
+
     /**
      * 检查知乎日报是否更新
      *
@@ -89,11 +91,6 @@ public interface ZhihuDateSource {
 
     //保存知乎详细信息
     void saveZhihu(ZhiHu zhiHu);
-
-    //删除知乎详细信息
-    void deleteZhiHu(ZhiHu zhiHu);
-
-    void deleteZhiHu(String id);
 
     //检查是否存在  true为存在  false为不存在
     boolean isCheckId(String id);
