@@ -1,42 +1,49 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:toolbar="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="280dp"
         android:fitsSystemWindows="true"
+
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            android:minHeight="56dp"
+            >
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/detailedTitleImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_scrollFlags="scroll"
+                app:layout_collapseMode="parallax"
+                android:fitsSystemWindows="true"
+                app:layout_collapseParallaxMultiplier="0.7"
+                android:adjustViewBounds="true"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarStyle="insideInset"/>
 
             <android.support.v7.widget.Toolbar
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-
-                android:textColorPrimary="#c1bebe"
+                app:layout_collapseMode="pin"
                 />
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/detailedTitleImg"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:scrollbarStyle="insideInset"
-                android:scrollbarAlwaysDrawVerticalTrack="true" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -56,5 +63,8 @@
 
 
     </android.support.v4.widget.NestedScrollView>
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

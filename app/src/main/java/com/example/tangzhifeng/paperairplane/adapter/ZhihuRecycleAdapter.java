@@ -2,6 +2,7 @@ package com.example.tangzhifeng.paperairplane.adapter;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
     }
 
     @Override
-    public void onBindViewHolder(ZhihuRecycleHolder holder, final int position) {
+    public void onBindViewHolder(final ZhihuRecycleHolder holder, final int position) {
         // TODO: 2017/2/16 这里还可以优化
         int current = 0;
         //这里显示current序列为position
@@ -64,12 +65,17 @@ public class ZhihuRecycleAdapter extends RecyclerView.Adapter<ZhihuRecycleHolder
             for (final ZhiHuList.StoriesBean bean : zhiHuList.getStories()) {
                 if (current == position) {
                     Uri uri = Uri.parse(bean.getImages().get(0));
+//                    if(bean.isClick()){
+//                        holder.mTextView.setTextColor(Color.rgb(98,98,98));
+//                    }
                     holder.mImageView.setImageURI(uri);
                     holder.mTextView.setText(bean.getTitle());
-
                     holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+//                            bean.setClick(1);
+                            holder.mTextView.setTextColor(Color.rgb(98,98,98));
+
                             clickListener.onClick(v, bean.getId());
                         }
                     });

@@ -58,7 +58,7 @@ public class ZHihuLocalDataSource implements IZhihuLocalDataSource {
                 String Zhihu_body = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY));
                 String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
                 String Zhihu_date = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
-
+                String Zhihu_click = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_CLICK));
 
                 ZhiHuList.StoriesBean storiesBean = new ZhiHuList.StoriesBean();
                 storiesBean.setTitle(Zhihu_title);
@@ -110,12 +110,15 @@ public class ZHihuLocalDataSource implements IZhihuLocalDataSource {
             String Zhihu_body = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY));
             String Zhihu_smallImg = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG));
             String Zhihu_date = c.getString(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE));
+            int Zhihu_click = c.getInt(c.getColumnIndexOrThrow(ZhihuPersistencContract.ZhihuEntry.ZHIHU_CLICK));
+
             ZhiHu zhiHu = new ZhiHu();
             zhiHu.setBody(Zhihu_body);
             zhiHu.setTitle(Zhihu_title);
             zhiHu.setImage(Zhihu_img);
             zhiHu.setId(Integer.valueOf(id));
             zhiHu.setDate(Zhihu_date);
+            zhiHu.setClick(Zhihu_click);
             getZhiHuCallback.onZhiHuLoaded(zhiHu);
 
         } else {
@@ -138,6 +141,8 @@ public class ZHihuLocalDataSource implements IZhihuLocalDataSource {
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE, zhiHu.getTitle());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG, zhiHu.getImage());
         contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE, zhiHu.getDate());
+        contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE, zhiHu.isClick());
+
         if (zhiHu.getImages() == null) {
             contentValues.put(ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG, zhiHu.getImage());
         } else {

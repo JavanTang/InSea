@@ -74,11 +74,15 @@ public class ZhihuHomeFagment extends Fragment implements ZhiHuHomepagerContract
             @Override
             public void onClick(View view, int id) {
                 mPresenter.ClickZhihuItem(id + "", getContext());
+
             }
         });
         mZhihuList.setLayoutManager(new LinearLayoutManager(getContext()));
         mZhihuList.setAdapter(mZhihuRecycleAdapter);
+        // TODO: 2017/6/24 这里首先我们还是从start进入的,但是我们暂时这样写
         mPresenter.start();
+//        mPresenter.dropDownRefresh(mZhiHuLists, mZhihuRecycleAdapter);
+
     }
 
 

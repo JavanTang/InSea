@@ -46,8 +46,7 @@ public class ZHihuDataRepository implements IZhihuLocalDataSource,IZhihuRemoteSo
     }
 
     @Override
-    public void getZhiHuList(@NonNull LoadZhiHuListCallback loadZhiHuListCallback) {
-
+    public void getZhiHuList(@NonNull final LoadZhiHuListCallback loadZhiHuListCallback) {
         remoteData.getZhiHuList(loadZhiHuListCallback);
     }
 
@@ -66,42 +65,13 @@ public class ZHihuDataRepository implements IZhihuLocalDataSource,IZhihuRemoteSo
 
     @Override
     public void getZhihu(final String id, final GetZhiHuCallback getZhiHuCallback) {
-        localData.getZhihu(id, new GetZhiHuCallback() {
-            @Override
-            public void onZhiHuLoaded(@NonNull ZhiHu zhiHu) {
-                if(getZhiHuCallback!=null)
-                getZhiHuCallback.onZhiHuLoaded(zhiHu);
-            }
-
-            @Override
-            public void onZhiHuObtainFailure() {
-                remoteData.getZhihu(id, new GetZhiHuCallback() {
-                    @Override
-                    public void onZhiHuLoaded(ZhiHu zhiHu) {
-                        saveZhihu(zhiHu);
-                        if(getZhiHuCallback!=null)
-                        getZhiHuCallback.onZhiHuLoaded(zhiHu);
-                    }
-
-                    @Override
-                    public void onZhiHuObtainFailure() {
-
-                    }
-                });
-            }
-        });
-
+        remoteData.getZhihu(id,getZhiHuCallback);
     }
 
     @Override
     public void saveZhihu(ZhiHu zhiHu) {
-        if (!localData.isLocalCheckId(zhiHu.getId()+"")) {
-            localData.saveZhihu(zhiHu);
-        }
 
     }
-
-
 
     @Override
     public boolean isLocalCheckId(String id) {

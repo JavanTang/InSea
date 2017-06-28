@@ -22,6 +22,22 @@ public class ZhiHu {
     private List<String> css;
     //自己添加一个数据Date
     private String date;
+    private boolean click;
+
+    public boolean isClick() {
+        return click;
+    }
+
+    public void setClick(int click) {
+        if(click==0){
+            this.click=false;
+        }else{
+            this.click=true;
+        }
+    }
+    public void setClick(boolean click) {
+        this.click=click;
+    }
 
     public String getDate() {
         return date;

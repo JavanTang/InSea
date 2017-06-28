@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -38,8 +37,8 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
     ImageView mImageView;
     @InjectView(R.id.toolbar_layout)
     CollapsingToolbarLayout mToolbarLayout;
-    @InjectView(R.id.app_bar)
-    AppBarLayout mAppBar;
+//    @InjectView(R.id.app_bar)
+//    AppBarLayout mAppBar;
     @InjectView(R.id.web_view)
     WebView mWebView;
 
@@ -93,9 +92,7 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
                 mWebView.loadDataWithBaseURL("x-data://base",zhiHu.getBody(),"text/html","utf-8",null);
                 mImageView.setImageURI(Uri.parse(zhiHu.getImage()));
                 mToolbar.setTitle("");
-                /**
-                 * 扩展后的Toorbar的title颜色
-                 */
+                // 扩展后的Toorbar的title颜色
                 mToolbarLayout.setExpandedTitleColor(Color.rgb(192,192,192));
 //                mToolbarLayout.setExpandedTitleTextAppearance(R.style.Toorbar_style);
                 mToolbarLayout.setCollapsedTitleTextColor(Color.rgb(202,235,216));
@@ -115,6 +112,16 @@ public class ZhihuDetailedFragment extends Fragment implements ZhihuDetailedCont
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setSubtitleTextColor(Color.WHITE);
         mToolbar.setTitleTextColor(android.graphics.Color.WHITE);
+//        Drawable drawableIcon= AppCompatResources.getDrawable(getContext(), R.drawable.backicon);
+//        drawableIcon.setBounds(24,24,24,24);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
     }
 
     @Override

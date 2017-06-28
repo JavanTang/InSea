@@ -2,6 +2,7 @@ package com.example.tangzhifeng.paperairplane.data.zhihu.source.remote;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHu;
 import com.example.tangzhifeng.paperairplane.data.zhihu.ZhiHuList;
@@ -16,7 +17,6 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Request;
@@ -93,16 +93,27 @@ public class ZhihuRemoteDataSource implements IZhihuRemoteSource {
 
 
     @Override
-    public void getZHihuList(String date, final LoadZhiHuListCallback loadZhiHuListCallback) {
+    public void getZHihuList(final String date, final LoadZhiHuListCallback loadZhiHuListCallback) {
 
         HttpUtil.sendHttpRequest(Api.PREVIOUS_MESSAGE + date, new HttpUtil.IHttpCallbackListenet() {
             @Override
             public void onFinish(String response) {
+                Log.i("tzf", "网络获取知乎数据网站为: " + Api.PREVIOUS_MESSAGE + date);
                 ZhiHuList zhiHuList = new ZhiHuList();
                 Gson gson = new Gson();
-                zhiHuList = gson.fromJson(response, ZhiHuList.class);
+                try {
+                    zhiHuList = gson.fromJson(response, ZhiHuList.class);
+                } catch (Exception e) {
+                    Log.e("tzf", "onFinish: " + response);
+                    e.printStackTrace();
+                }
                 if (zhiHuList != null) {
-                    loadZhiHuListCallback.onZhiHuListLoaded(Arrays.asList(zhiHuList));
+                    List<ZhiHuList> zhiHuLists = new ArrayList<ZhiHuList>();
+                    for (ZhiHuList.StoriesBean storiesBean : zhiHuList.getStories()) {
+                        storiesBean.setDate(zhiHuList.getDate());
+                    }
+                    zhiHuLists.add(zhiHuList);
+                    loadZhiHuListCallback.onZhiHuListLoaded(zhiHuLists);
                 } else {
                     loadZhiHuListCallback.onZhiHuListNotAvailable();
                 }

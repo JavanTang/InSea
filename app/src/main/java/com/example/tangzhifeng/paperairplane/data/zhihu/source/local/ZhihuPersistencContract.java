@@ -20,6 +20,7 @@ public class ZhihuPersistencContract {
         public static final String ZHIHU_BODY="body";
         public static final String ZHIHU_SMALL_IMG="smallImg";
         public static final String ZHIHU_DATE="date";
+        public static final String ZHIHU_CLICK="click";
     }
 
 

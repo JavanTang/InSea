@@ -19,8 +19,8 @@
     <!--<color name="accent">#ff6e40</color>-->
 
 
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#2196F3</color>
     <color name="primary_light">#BBDEFB</color>
     <color name="accent">#CDDC39</color>
     <color name="primary_text">#212121</color>

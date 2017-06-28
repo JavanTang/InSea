@@ -23,7 +23,7 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     private static final String BOOLEAN_TYPE = " INTEGER";
     private static final String COMMA = ",";
     //数据库版本号
-    public static final int INSEA_DB_VERSION = 3;
+    public static final int INSEA_DB_VERSION = 4;
     //创建知乎表
     public static final String ZHIHU_CREATER = "create table " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + "("
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_ID + TEXT_TYPE + " primary key" + COMMA
@@ -31,7 +31,8 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_BODY + TEXT_TYPE + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_TITLE_IMG + TEXT_TYPE + COMMA
             + ZhihuPersistencContract.ZhihuEntry.ZHIHU_SMALL_IMG + TEXT_TYPE + COMMA
-            + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE + TEXT_TYPE
+            + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE + TEXT_TYPE + COMMA
+            + ZhihuPersistencContract.ZhihuEntry.ZHIHU_CLICK + BOOLEAN_TYPE
             + ")";
 
     public static final String DOUBAN_CREATE = "create table " + DoubanPersistenContract.DoubanEntry.TABLE_NAME + "("
@@ -73,10 +74,13 @@ public class InSeaDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         switch (newVersion) {
             case 1:
-                db.execSQL("ALTER TABLE " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + " ADD COLUMN " + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE);
+                db.execSQL("ALTER TABLE " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + " ADD COLUMN " + ZhihuPersistencContract.ZhihuEntry.ZHIHU_DATE+" "+TEXT_TYPE);
             case 2:
                 db.execSQL(DOUBAN_CREATE);
             case 3:
+                db.execSQL("ALTER TABLE " + ZhihuPersistencContract.ZhihuEntry.TABLE_NAME + " ADD COLUMN " + ZhihuPersistencContract.ZhihuEntry.ZHIHU_CLICK+" "+BOOLEAN_TYPE);
+            case 4:
+
 
         }
     }

@@ -51,6 +51,23 @@ public class ZhiHuList {
         private List<String> images;
         private String date;
 
+        public boolean isClick() {
+            return click;
+        }
+
+        public void setClick(int click) {
+            if(click==0){
+                this.click=false;
+            }else{
+                this.click=true;
+            }
+        }
+        public void setClick(boolean click) {
+            this.click=click;
+        }
+
+        private boolean click;
+
         public String getDate() {
             return date;
         }

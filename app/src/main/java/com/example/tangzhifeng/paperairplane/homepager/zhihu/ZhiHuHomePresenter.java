@@ -2,7 +2,6 @@ package com.example.tangzhifeng.paperairplane.homepager.zhihu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.example.tangzhifeng.paperairplane.MyApplication;
 import com.example.tangzhifeng.paperairplane.adapter.ZhihuRecycleAdapter;
@@ -39,22 +38,16 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
      */
     @Override
     public void start() {
-        mZhihuDateRepository.localData.getZhiHuList(new ZhihuDateSource.LoadZhiHuListCallback() {
+        mZhihuDateRepository.getZhiHuList(new ZhihuDateSource.LoadZhiHuListCallback() {
             @Override
             public void onZhiHuListLoaded(List<ZhiHuList> zhiHuLists) {
                 mView.showZhiHuList(zhiHuLists);
             }
-
             @Override
             public void onZhiHuListNotAvailable() {
                 mView.showDPROP();
-
             }
         });
-
-        if (HttpUtil.isNetworkAvailable(MyApplication.getContext())) {
-            mView.showDropDownRefresh();
-        }
     }
 
 
@@ -64,7 +57,7 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
             mView.showNetwordNotAvailable();
             return;
         }
-        mZhihuDateRepository.isZhihuListUpdate(lists.get(0), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
+        mZhihuDateRepository.isZhihuListUpdate(lists.get(lists.size()-1), new ZhihuDateSource.CheckZhihuListUpdateCallBack() {
             @Override
             public void onZHihuListUpdate(final ZhiHuList zhiHuList) {
                 List<ZhiHuList> zhiHuLists = new ArrayList<ZhiHuList>();
@@ -152,7 +145,6 @@ public class ZhiHuHomePresenter implements ZhiHuHomepagerContract.Presenter {
 
     @Override
     public void ClickZhihuItem(String id) {
-        Log.i(TAG, "ClickZhihuItem: "+id);
     }
 
 

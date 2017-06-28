@@ -28,6 +28,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="16dp"
+            android:textColor="@color/primary_text"
             android:gravity="center_vertical"
             android:text="电脑上玩儿游戏,为什么是[WASD]?"
             android:textSize="15sp"
